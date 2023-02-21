@@ -1,6 +1,8 @@
 import os
 import json
 import csv
+import gzip
+import time
 class TCASTESTER:
     def __init__(self) -> None:
         self.path = "../../benchmarks/tcas/"
@@ -29,6 +31,12 @@ class TCASTESTER:
         # Create a list to store the coverage information for each testcase
         coverage_info = []
 
+
+        # create a CSV
+        with open('coverage_info.csv', 'w', newline='') as csvfile:
+                writer = csv.writer(csvfile)
+                writer.writerow(['Testcase', 'Coverage'])
+
         # Loop through each testcase and run it
         for i, testcase in enumerate(testcases):
             # Remove any whitespace from the beginning and end of the testcase
@@ -36,26 +44,27 @@ class TCASTESTER:
 
             print(f"Running testcase {i+1}... ", testcase)
             # Run the testcase and save the coverage information to a file
-            os.system(f'./tcas {testcase} > outputs/output{i}.txt')
-        #     os.system('gcov -j tcas.c')
+            os.system(f'./tcas {testcase} > {self.path}outputs/output{i}.txt')
 
-        #     # Open the coverage file and extract the coverage information
-        #     with open('tcas.c.gcov.json', 'r') as cov_file:
-        #         coverage = cov_file.read()
-        #         # Parse the JSON and extract the relevant coverage information
-        #         json_data = json.loads(coverage)
-        #         lines = json_data['files'][0]['lines']
-        #         covered_lines = [line for line in lines if line['count'] > 0]
-        #         total_lines = len(lines)
-        #         covered_ratio = len(covered_lines) / total_lines
-        #         # Append the coverage information to the list
-        #         coverage_info.append((i+1, covered_ratio))
+            # Run gcov on the output binary
+            os.system(f'gcov-12 -a -w -b -c -j tcas')
 
-        # # Write the coverage information to a CSV file
-        # with open('coverage_info.csv', 'w', newline='') as csvfile:
-        #     writer = csv.writer(csvfile)
-        #     writer.writerow(['Testcase', 'Coverage'])
-        #     writer.writerows(coverage_info)
+
+            with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                json_bytes = f.read()                     
+                json_str = json_bytes.decode('utf-8')            
+                json_data = json.loads(json_str)                     
+                lines = json_data['files'][0]['lines']
+                covered_lines = [line for line in lines if line['count'] > 0]
+                total_lines = len(lines)
+                covered_ratio = len(covered_lines) / total_lines
+                # Append the coverage information to the list
+                coverage_info.append((i+1, covered_ratio))
+                
+        
+        with open('coverage_info.csv', 'w', newline='') as csvfile:
+            writer = csv.writer(csvfile)
+            writer.writerows(coverage_info)
 
 
 if __name__ == "__main__":
