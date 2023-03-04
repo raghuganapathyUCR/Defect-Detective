@@ -8,6 +8,7 @@ class TCASTESTER:
         self.coverageData = []
     
     # function to read a file line by line
+    # @param fileName - the name of the file to read
     def readFile(self, fileName):
         print("TCASTESTER: readFile")
         file = open(fileName, "r")
@@ -17,7 +18,8 @@ class TCASTESTER:
     
 
     
-
+    # Function to collect coverage information for all testcases
+    # @return coverageData - a list of maps containing the coverage information for each testcase
     def collectCoverageInfoFromBaseForAllTestCases(self):
         print("TCASTESTER: collectCoverageInfoFromBaseForAllTestCases")
         
@@ -84,6 +86,9 @@ class TCASTESTER:
 
 
         
+    # Function to parse the JSON data from gcov for coverage information
+    # @param json_data - the JSON data from gcov
+    # @return coverageInfo - a map containing the coverage information
     def parseJsonDataForCoverage(self, json_data):
         # Map to store the coverage information
         coverageInfo = {}
@@ -148,11 +153,18 @@ class TCASTESTER:
 
         return coverageInfo
 
+    # Function to return the coverage data
+    # @return coverageData - the coverage data
     def getCoverageData(self):
         print("TCASTESTER: getCoverageData")
         return self.coverageData
+    
+
 if __name__ == "__main__":
     print("TCASTESTER: main")
     tester = TCASTESTER()
+    # Experiment 1 - Collect coverage information for all testcases
     tester.collectCoverageInfoFromBaseForAllTestCases()
+    # Test 1 - Print the coverage information, which should be a list of maps containing
+    # the coverage information for each testcase
     print(tester.getCoverageData())
