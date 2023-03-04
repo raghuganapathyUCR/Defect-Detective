@@ -1,6 +1,8 @@
 import os
 import json
 import csv
+import gzip
+import time
 class TCASTESTER:
     def __init__(self) -> None:
         self.path = "../../benchmarks/tcas/"
@@ -12,15 +14,14 @@ class TCASTESTER:
         lines = file.readlines()
         file.close()
         return lines
+    
+
+    
+
     def runForBase(self):
         print("TCASTESTER: runForBase")
         
-        temp = os.system("gcc-12 -Wno-return-type -fprofile-arcs -ftest-coverage -w -g -o tcas "+ self.path + "tcas.c")
-        if temp != 0:
-            print("TCASTESTER: runForBase: error in compiling")
-            return
-        print("TCASTESTER: runForBase: compiled")
-
+       
         
 
         with open(f'{self.path}universe.txt', 'r') as f:
@@ -29,34 +30,94 @@ class TCASTESTER:
         # Create a list to store the coverage information for each testcase
         coverage_info = []
 
+
+        # create a CSV
+        # with open('coverage_info.csv', 'w', newline='') as csvfile:
+        #         writer = csv.writer(csvfile)
+        #         writer.writerow(['Testcase', 'Coverage'])
+
         # Loop through each testcase and run it
         for i, testcase in enumerate(testcases):
+          
+            if i> 0:
+                break
+
+            temp = os.system("gcc-12 -Wno-return-type -fprofile-arcs -ftest-coverage -w -g -o tcas "+ self.path + "tcas.c > /dev/null 2>&1")
+            if temp != 0:
+                print("TCASTESTER: runForBase: error in compiling")
+                return
+            print("TCASTESTER: runForBase: compiled")
+
+
             # Remove any whitespace from the beginning and end of the testcase
             testcase = testcase.strip()
 
             print(f"Running testcase {i+1}... ", testcase)
             # Run the testcase and save the coverage information to a file
-            os.system(f'./tcas {testcase} > outputs/output{i}.txt')
-        #     os.system('gcov -j tcas.c')
+            os.system(f'./tcas {testcase} > /dev/null 2>&1')
 
-        #     # Open the coverage file and extract the coverage information
-        #     with open('tcas.c.gcov.json', 'r') as cov_file:
-        #         coverage = cov_file.read()
-        #         # Parse the JSON and extract the relevant coverage information
-        #         json_data = json.loads(coverage)
-        #         lines = json_data['files'][0]['lines']
-        #         covered_lines = [line for line in lines if line['count'] > 0]
-        #         total_lines = len(lines)
-        #         covered_ratio = len(covered_lines) / total_lines
-        #         # Append the coverage information to the list
-        #         coverage_info.append((i+1, covered_ratio))
+            # Run gcov on the output binary
+            os.system(f'gcov-12 -a -w -b -f -j tcas')
 
-        # # Write the coverage information to a CSV file
+
+            coverageInfo = {}
+
+            # Read the gcov output file
+            with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                json_bytes = f.read()                     
+                json_str = json_bytes.decode('utf-8')            
+                json_data = json.loads(json_str)     
+
+
+                # For Coverage Ratio - Block Coverage
+                lines = json_data['files'][0]['lines']
+                covered_lines = [line for line in lines if line['count'] > 0]
+                total_lines = len(lines)
+                covered_ratio = len(covered_lines) / total_lines
+
+                #
+                coverageInfo["blockCoverage"] = covered_ratio
+
+                # To do the additional Coverage part
+                mp = {
+                    "visited" : [],
+                    "notVisited" : []
+                }
+                for line in lines:
+                    if line["count"] > 0:
+                        mp["visited"].append(line["line_number"])
+                    else:
+                        mp["notVisited"].append(line["line_number"])
+
+
+
+                coverageInfo["lines"] = mp
+
+                # Per-Function Coverage
+                fnMp = {}
+                for function in json_data['files'][0]['functions']:
+
+                    fnBlockCoverage = function["blocks_executed"] / function["blocks"] 
+                    fnMp[function["name"]] = fnBlockCoverage
+                    # print("\t",function)
+
+                coverageInfo["functionData"] = fnMp
+
+                print(coverageInfo)
+            os.system(f'rm -rf tcas.gcno')
+            os.system(f'rm -rf tcas')
+            os.system(f'rm -rf ./tcas.dSYM')
+            os.system(f'rm -rf ./tcas.gcda')
+            os.system(f'rm -rf tcas.gcov.json.gz') 
+
+                # Append the coverage information to the list
+                # coverage_info.append((i+1, covered_ratio))
+                
+        
         # with open('coverage_info.csv', 'w', newline='') as csvfile:
         #     writer = csv.writer(csvfile)
-        #     writer.writerow(['Testcase', 'Coverage'])
         #     writer.writerows(coverage_info)
-
+        
 
 if __name__ == "__main__":
     print("TCASTESTER: main")
