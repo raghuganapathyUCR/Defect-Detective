@@ -30,55 +30,51 @@ class TCASTESTER:
         # Create a list to store the coverage information for each testcase
         coverage_info = []
 
-
-        # create a CSV
-        # with open('coverage_info.csv', 'w', newline='') as csvfile:
-        #         writer = csv.writer(csvfile)
-        #         writer.writerow(['Testcase', 'Coverage'])
-
         # Loop through each testcase and run it
         for i, testcase in enumerate(testcases):
           
-            
+            # Map to store the coverage metadata for the current testcase
             coverageMeta = {}
 
+            # Compile the program with gcov flags
             subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
 
 
             # Remove any whitespace from the beginning and end of the testcase
             testcase = testcase.strip()
-
             print(f"Running testcase {i+1}... ", testcase)
-            # Run the testcase and save the coverage information to a file
 
+            # Run the testcase and save the "True" result as indicated in the project description
             agrsTest = testcase.split()
-
             result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
 
+            # capture the metadata for the current testcase
             coverageMeta["testcaseID"] = i+1
             coverageMeta["testcase"] = testcase
             coverageMeta["TrueResult"] = result.stdout.decode('utf-8').strip()
 
 
             # Run gcov on the output binary
-
             gcovRes = subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
 
-            
-
-            # Read the gcov output file
+            # Read the gcov output file and parse it into a JSON dictionary
             with gzip.open('tcas.gcov.json.gz', 'rb') as f:
                 json_bytes = f.read()                     
                 json_str = json_bytes.decode('utf-8')            
                 json_data = json.loads(json_str)     
 
+                # Parse the JSON data to get the coverage information- block coverage, line coverage, and per-function coverage
                 coverageInfo = self.parseJsonDataForCoverage(json_data)
 
+
+                # Add the coverage metadata to the coverage information
                 coverageInfo.update(coverageMeta)
 
+                # Add the coverage information for this testcase to the list of coverage information of all testcases
                 self.coverageData.append(coverageInfo)
             
+            # Remove the gcov output files and the binary
             subprocess.run(["rm", "-rf", "tcas.gcno"])
             subprocess.run(["rm", "-rf", "tcas"])
             subprocess.run(["rm", "-rf", "./tcas.dSYM"])
@@ -86,37 +82,43 @@ class TCASTESTER:
             subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
 
 
-                # Append the coverage information to the list
-                # coverage_info.append((i+1, covered_ratio))
-                
-        
-        # with open('coverage_info.csv', 'w', newline='') as csvfile:
-        #     writer = csv.writer(csvfile)
-        #     writer.writerows(coverage_info)
+
         
     def parseJsonDataForCoverage(self, json_data):
+        # Map to store the coverage information
         coverageInfo = {}
+        # Read line coverage information from the JSON data
         lines = json_data['files'][0]['lines']
+
+        # store the covered lines and total lines count
         covered_lines = [line for line in lines if line['count'] > 0]
         total_lines = len(lines)
+
+        # Calculate the block coverage
         covered_ratio = len(covered_lines) / total_lines
 
-        #
+        # Add the block coverage to the coverage information
         coverageInfo["blockCoverage"] = covered_ratio
 
         # To do the additional Coverage part
+        # Map to store the line coverage information
         mp = {
             "visited" : [],
             "notVisited" : []
         }
+        # Counters to store the total number of branches and the number of taken branches
         total_branches = 0
         taken_branches = 0
+        # Loop through each line in the JSON data
         for line in lines:
+            # If the line was executed, add it to the list of visited lines
             if line["count"] > 0:
                 mp["visited"].append(line["line_number"])
             else:
+                # Otherwise, add it to the list of not visited lines
                 mp["notVisited"].append(line["line_number"])
             
+            # If the line has "branches", loop through each branch
             if "branches" in line:
                 # Loop through each branch in the line
                 for branch in line["branches"]:
@@ -125,15 +127,17 @@ class TCASTESTER:
                     # If the branch was taken, increment the taken branches
                     if branch["count"] > 0:
                         taken_branches += 1
+        # Calculate the branch coverage
         if total_branches > 0:
             branch_coverage = (taken_branches / total_branches) * 100
         else:
             branch_coverage = 0.0
 
+        # Add the branch coverage to the coverage information
         coverageInfo["lines"] = mp
 
 
-        # Per-Function Coverage
+        # Per-Function Coverage - May not be needed, but added for completeness of report   
         fnMp = {}
         for function in json_data['files'][0]['functions']:
 
