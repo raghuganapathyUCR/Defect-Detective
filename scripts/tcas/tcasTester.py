@@ -83,16 +83,29 @@ class TCASTESTER:
                     "visited" : [],
                     "notVisited" : []
                 }
+                total_branches = 0
+                taken_branches = 0
                 for line in lines:
                     if line["count"] > 0:
                         mp["visited"].append(line["line_number"])
                     else:
                         mp["notVisited"].append(line["line_number"])
-
-
+                    
+                    if "branches" in line:
+                        # Loop through each branch in the line
+                        for branch in line["branches"]:
+                            # Increment the total number of branches
+                            total_branches += 1
+                            # If the branch was taken, increment the taken branches
+                            if branch["count"] > 0:
+                                taken_branches += 1
+                if total_branches > 0:
+                    branch_coverage = (taken_branches / total_branches) * 100
+                else:
+                    branch_coverage = 0.0
 
                 coverageInfo["lines"] = mp
-
+                print("Branch coverage: {:.2f}%".format(branch_coverage))
                 # Per-Function Coverage
                 fnMp = {}
                 for function in json_data['files'][0]['functions']:
@@ -100,8 +113,10 @@ class TCASTESTER:
                     fnBlockCoverage = function["blocks_executed"] / function["blocks"] 
                     fnMp[function["name"]] = fnBlockCoverage
                     # print("\t",function)
-
                 coverageInfo["functionData"] = fnMp
+
+
+
 
                 print(coverageInfo)
             os.system(f'rm -rf tcas.gcno')
