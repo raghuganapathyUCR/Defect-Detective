@@ -1,11 +1,14 @@
 import os
 import json
-import csv
+
 import gzip
-import time
+
+import subprocess
+
 class TCASTESTER:
     def __init__(self) -> None:
         self.path = "../../benchmarks/tcas/"
+        self.coverageData = []
     
     # function to read a file line by line
     def readFile(self, fileName):
@@ -18,8 +21,8 @@ class TCASTESTER:
 
     
 
-    def runForBase(self):
-        print("TCASTESTER: runForBase")
+    def collectCoverageInfoFromBaseForAllTestCases(self):
+        print("TCASTESTER: collectCoverageInfoFromBaseForAllTestCases")
         
        
         
@@ -39,14 +42,11 @@ class TCASTESTER:
         # Loop through each testcase and run it
         for i, testcase in enumerate(testcases):
           
-            if i> 0:
-                break
+           
+            
+            coverageInfo = {}
 
-            temp = os.system("gcc-12 -Wno-return-type -fprofile-arcs -ftest-coverage -w -g -o tcas "+ self.path + "tcas.c > /dev/null 2>&1")
-            if temp != 0:
-                print("TCASTESTER: runForBase: error in compiling")
-                return
-            print("TCASTESTER: runForBase: compiled")
+            subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
 
 
             # Remove any whitespace from the beginning and end of the testcase
@@ -54,13 +54,22 @@ class TCASTESTER:
 
             print(f"Running testcase {i+1}... ", testcase)
             # Run the testcase and save the coverage information to a file
-            os.system(f'./tcas {testcase} > /dev/null 2>&1')
+
+            agrsTest = testcase.split()
+
+            result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+
+            coverageInfo["testcaseID"] = i+1
+            coverageInfo["testcase"] = testcase
+            coverageInfo["TrueResult"] = result.stdout.decode('utf-8').strip()
+
 
             # Run gcov on the output binary
-            os.system(f'gcov-12 -a -w -b -f -j tcas')
 
+            gcovRes = subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+            # print(gcovRes.stdout.decode('utf-8'))
 
-            coverageInfo = {}
+            
 
             # Read the gcov output file
             with gzip.open('tcas.gcov.json.gz', 'rb') as f:
@@ -105,7 +114,8 @@ class TCASTESTER:
                     branch_coverage = 0.0
 
                 coverageInfo["lines"] = mp
-                print("Branch coverage: {:.2f}%".format(branch_coverage))
+
+
                 # Per-Function Coverage
                 fnMp = {}
                 for function in json_data['files'][0]['functions']:
@@ -118,7 +128,7 @@ class TCASTESTER:
 
 
 
-                print(coverageInfo)
+                self.coverageData.append(coverageInfo)
             os.system(f'rm -rf tcas.gcno')
             os.system(f'rm -rf tcas')
             os.system(f'rm -rf ./tcas.dSYM')
@@ -133,8 +143,11 @@ class TCASTESTER:
         #     writer = csv.writer(csvfile)
         #     writer.writerows(coverage_info)
         
-
+    def getCoverageData(self):
+        print("TCASTESTER: getCoverageData")
+        return self.coverageData
 if __name__ == "__main__":
     print("TCASTESTER: main")
     tester = TCASTESTER()
-    tester.runForBase()
+    tester.collectCoverageInfoFromBaseForAllTestCases()
+    print(tester.getCoverageData())
