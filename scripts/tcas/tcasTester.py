@@ -1,8 +1,5 @@
-import os
 import json
-
 import gzip
-
 import subprocess
 
 class TCASTESTER:
@@ -81,11 +78,13 @@ class TCASTESTER:
                 coverageInfo.update(coverageMeta)
 
                 self.coverageData.append(coverageInfo)
-            os.system(f'rm -rf tcas.gcno')
-            os.system(f'rm -rf tcas')
-            os.system(f'rm -rf ./tcas.dSYM')
-            os.system(f'rm -rf ./tcas.gcda')
-            os.system(f'rm -rf tcas.gcov.json.gz') 
+            
+            subprocess.run(["rm", "-rf", "tcas.gcno"])
+            subprocess.run(["rm", "-rf", "tcas"])
+            subprocess.run(["rm", "-rf", "./tcas.dSYM"])
+            subprocess.run(["rm", "-rf", "./tcas.gcda"])
+            subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+
 
                 # Append the coverage information to the list
                 # coverage_info.append((i+1, covered_ratio))
