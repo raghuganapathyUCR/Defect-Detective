@@ -3,8 +3,11 @@ import gzip
 import subprocess
 
 class TCASTESTER:
+    # Constructor for the TCASTESTER class
     def __init__(self) -> None:
+        # Path to the tcas directory
         self.path = "../../benchmarks/tcas/"
+        # List to store the coverage data for all testcases
         self.coverageData = []
     
     # function to read a file line by line
