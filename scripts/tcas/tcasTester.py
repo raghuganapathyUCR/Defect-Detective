@@ -20,6 +20,7 @@ class TCASTESTER:
         self.statementBasedRandomTestSuite = []
         self.testcases = []
         self.statementBasedTotalTestSuite = []
+        self.additionalCoverageBasedTestSuite = []
  
     
     # function to read a file line by line
@@ -305,7 +306,6 @@ class TCASTESTER:
         print("\nLength of statementBasedTotalTestSuite: ", len(totalCoverageBasedTestSuite))
         return totalCoverageBasedTestSuite
     
-
     # Function to evaluate the incremental coverage of test suite based on the total coverage
     # @param self - the object pointer
     # @return None    
@@ -352,6 +352,110 @@ class TCASTESTER:
                 subprocess.run(["rm", "-rf", "./tcas.dSYM"])
                 subprocess.run(["rm", "-rf", "./tcas.gcda"])
                 subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+    
+
+    # Function to build a test suite based on Additional Coverage Prioritization
+    # @param self - the object pointer
+    # @return additionalCoverageBasedTestSuite - the test suite
+    def AdditionalCoveragePrioritizationStatementBased(self):
+        if len(self.coverageData) == 0:
+            raise NotImplementedError("Please run the collectCoverageInfoFromBaseForAllTestCases() method first")
+
+        # Create a copy of the coverage data
+        remainingTests = self.coverageData.copy()
+        # Set of visited lines, start at empty set fill as we go
+        visitedLines = set()
+        # List to store valid cases for this technique as per project description
+        additionalCoverageBasedTestSuite = []
+
+        # Iterate until all statements/branches are covered by at least one test case
+        # TODO: Experiment with using a queue instead of a list to store the remaining tests, this may improve performance
+        while remainingTests:
+            bestTest = None
+            maxNewLines = 0
+
+            # Find the test case that yields the greatest additional statement/branch coverage
+            for test in remainingTests:
+                # Get the set of visited lines for the current testcase
+                currentlyVisited = set(test["lines"]["visited"])
+                # Get the number of new lines covered by this test case
+                newLines = len(currentlyVisited - visitedLines)
+                # If this test case covers more new lines than any previous test case, select it -  (i) select a 
+                # test case that yields the greatest additional statement/branch coverage
+                if newLines > maxNewLines:
+                    # Update the best test case and the number of new lines covered
+                    # (ii) then adjust the coverage information on subsequent test cases to 
+                    # indicate their coverage of statements/branches not
+                    # yet covered by a test already chosen for the suite
+                    maxNewLines = newLines
+                    # Store the test case that covers the greatest additional number of lines
+                    bestTest = test
+            
+            # If there are no more test cases that cover new lines, stop - we have found the optimal test suite 
+            if bestTest is None:
+                break
+
+            # Add the test case that covers the greatest additional number of lines to the output
+            additionalCoverageBasedTestSuite.append(bestTest['testcase'])
+            # Add the visited lines of the current testcase to the set of covered lines
+            visitedLines.update(set(bestTest["lines"]["visited"]))
+
+            # Remove the selected test case from the remaining tests
+            remainingTests.remove(bestTest)
+
+        # Store the test suite in the object
+        self.additionalCoverageBasedTestSuite = additionalCoverageBasedTestSuite
+        print("\nLength of additionalCoverageBasedTestSuite: ", len(additionalCoverageBasedTestSuite))
+        return additionalCoverageBasedTestSuite
+    
+    # Function to evaluate the incremental coverage of test suite based on the total coverage
+    # @param self - the object pointer
+    # @return None    
+    def TestAdditionalTestPrioritizationStatementBased(self):
+        if len(self.additionalCoverageBasedTestSuite)==0:
+            NotImplementedError("This function need to be run after AdditionalCoveragePrioritization()")
+        visited_lines = set()  # To keep track of the lines that have been covered
+        for testcase in self.additionalCoverageBasedTestSuite:
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+
+            
+
+                # Remove any whitespace from the beginning and end of the testcase
+                testcase = testcase.strip()
+
+                # Run the testcase and save the "True" result as indicated in the project description
+                agrsTest = testcase.split()
+                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                print(f"Running testcase... ", testcase)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+
+                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                    json_bytes = f.read()                     
+                    json_str = json_bytes.decode('utf-8')            
+                    json_data = json.loads(json_str)     
+                    
+                    # Parse the JSON data to get the coverage information- block coverage, line coverage, and per-function coverage
+                    coverageInfo = self.parseJsonDataForCoverage(json_data)
+                    total_lines = len(coverageInfo['lines']['visited']) + len(coverageInfo['lines']['notVisited'])
+
+                    # Add the coverage information to the list of coverage data
+                    testcase_visited = set(coverageInfo['lines']['visited'])
+                    if not testcase_visited.issubset(visited_lines):
+                        print("Adding the following lines to the visited_lines set: ", testcase_visited.difference(visited_lines))
+                        print("Visited Lines is currently: ", visited_lines)
+                        visited_lines.update(testcase_visited)
+                        print("Length of visited lines currently", len(visited_lines))
+                        print("total number of lines: ",total_lines)
+                        print("Coverage For the suite is currently: ", len(visited_lines)/total_lines)
+                        
+                        print("\n\n")
+                subprocess.run(["rm", "-rf", "tcas.gcno"])
+                subprocess.run(["rm", "-rf", "tcas"])
+                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
+                subprocess.run(["rm", "-rf", "./tcas.gcda"])
+                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+
+    
 
 
 if __name__ == "__main__":
@@ -381,4 +485,10 @@ if __name__ == "__main__":
 
     # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     tester.TestTotalTestPrioritizationStatementBased() 
+
+    addTests = tester.AdditionalCoveragePrioritizationStatementBased()
+    print(addTests)
+
+    # Experiment 5 - Test Quality of suite for statement coverage of total test suite
+    tester.TestAdditionalTestPrioritizationStatementBased() 
 
