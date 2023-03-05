@@ -1,6 +1,10 @@
+import copy
 import json
 import gzip
 import subprocess
+import random
+
+import os
 
 class TCASTESTER:
     # Constructor for the TCASTESTER class
@@ -9,6 +13,14 @@ class TCASTESTER:
         self.path = "../../benchmarks/tcas/"
         # List to store the coverage data for all testcases
         self.coverageData = []
+        if(os.path.isfile("coverageData.json")):
+            with open("coverageData.json", 'r') as file:
+                content = file.read().strip()
+                self.coverageData = json.loads(content)
+                
+           
+        self.statementBasedRandomTestSuite = []
+ 
     
     # function to read a file line by line
     # @param fileName - the name of the file to read
@@ -25,7 +37,12 @@ class TCASTESTER:
     # @return coverageData - a list of maps containing the coverage information for each testcase
     def collectCoverageInfoFromBaseForAllTestCases(self):
         print("TCASTESTER: collectCoverageInfoFromBaseForAllTestCases")
-        
+        if(os.path.isfile("coverageData.json")):
+            with open("coverageData.json", 'r') as file:
+                content = file.read().strip()
+                self.coverageData = json.loads(content)
+
+                return self.coverageData
        
         
 
@@ -37,7 +54,7 @@ class TCASTESTER:
 
         # Loop through each testcase and run it
         for i, testcase in enumerate(testcases):
-          
+        
             # Map to store the coverage metadata for the current testcase
             coverageMeta = {}
 
@@ -85,6 +102,8 @@ class TCASTESTER:
             subprocess.run(["rm", "-rf", "./tcas.dSYM"])
             subprocess.run(["rm", "-rf", "./tcas.gcda"])
             subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+        
+        return self.coverageData
 
 
 
@@ -163,6 +182,90 @@ class TCASTESTER:
         return self.coverageData
     
 
+    def RandomTestPrioritization(self,coverage):
+        testcases =  coverage
+        visited_lines = set()  # To keep track of the lines that have been covered
+
+        # Shuffle the testcases randomly
+        random.shuffle(testcases)
+
+        statementBasedRandomTestSuite =[]
+        # Iterate through the shuffled testcases
+        for testcase in testcases:
+            # Get the set of visited lines for the current testcase
+            testcase_visited = set(testcase['lines']['visited'])
+
+            # If there is no overlap between the visited lines of the current testcase and the visited lines already covered, add the current testcase to the output
+            if not testcase_visited.issubset(visited_lines):
+                statementBasedRandomTestSuite.append(testcase['testcase'])
+                # Add the visited lines of the current testcase to the set of covered lines
+                visited_lines.update(testcase_visited)
+
+        self.statementBasedRandomTestSuite = statementBasedRandomTestSuite
+        print("\nLength of statementBasedRandomTestSuite: ", len(statementBasedRandomTestSuite))
+        return statementBasedRandomTestSuite
+    
+
+    # Function to dump the coverage data to a JSON file
+    # @param coverageData - the coverage data
+    # @param filename - the filename to dump the coverage data to
+    # @return None
+    def dumpCoverageData(self, coverageData, filename):
+        if(os.path.isfile("coverageData.json")):
+           return
+        with open(filename, 'w') as outfile:
+            json.dump(coverageData, outfile)
+
+    
+    # Function to dump the test suite to a file
+    # @param self - the object pointer
+    # @return None
+    def TestRandomTestPrioritization(self):
+        if len(self.statementBasedRandomTestSuite)==0:
+            NotImplementedError("This function need to be run after RandomTestPrioritization()")
+        visited_lines = set()  # To keep track of the lines that have been covered
+        for testcase in self.statementBasedRandomTestSuite:
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+
+            
+
+                # Remove any whitespace from the beginning and end of the testcase
+                testcase = testcase.strip()
+
+                # Run the testcase and save the "True" result as indicated in the project description
+                agrsTest = testcase.split()
+                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                print(f"Running testcase... ", testcase)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+
+                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                    json_bytes = f.read()                     
+                    json_str = json_bytes.decode('utf-8')            
+                    json_data = json.loads(json_str)     
+                    
+                    # Parse the JSON data to get the coverage information- block coverage, line coverage, and per-function coverage
+                    coverageInfo = self.parseJsonDataForCoverage(json_data)
+                    total_lines = len(coverageInfo['lines']['visited']) + len(coverageInfo['lines']['notVisited'])
+
+                    # Add the coverage information to the list of coverage data
+                    testcase_visited = set(coverageInfo['lines']['visited'])
+                    if not testcase_visited.issubset(visited_lines):
+                        print("Adding the following lines to the visited_lines set: ", testcase_visited.difference(visited_lines))
+                        print("Visited Lines is currently: ", visited_lines)
+                        visited_lines.update(testcase_visited)
+                        print("Length of visited lines currently", len(visited_lines))
+                        print("total number of lines: ",total_lines)
+                        print("Coverage For the suite is currently: ", len(visited_lines)/total_lines)
+                        
+                        print("\n\n")
+                subprocess.run(["rm", "-rf", "tcas.gcno"])
+                subprocess.run(["rm", "-rf", "tcas"])
+                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
+                subprocess.run(["rm", "-rf", "./tcas.gcda"])
+                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+                        
+
+
 if __name__ == "__main__":
     print("TCASTESTER: main")
     tester = TCASTESTER()
@@ -171,3 +274,16 @@ if __name__ == "__main__":
     # Test 1 - Print the coverage information, which should be a list of maps containing
     # the coverage information for each testcase
     print(tester.getCoverageData())
+
+
+    # Test 2 - Dump the coverage information to a file
+    tester.dumpCoverageData(tester.getCoverageData(), "coverageData.json")
+
+    # Experiment 2 - Collect coverage information for the statement-based random test suite
+    coverageData = tester.getCoverageData()
+    randomTests = tester.RandomTestPrioritization(coverageData)
+    print(randomTests)
+
+    # Experiment 3 - Test Quality of suite for statement coverage
+    temp = ['634 1 0 633 100 535 1 665 795 1 0 0', '601 1 1  777  424  309 1  641  401 0 1 1', '967 1 0  659  204 3825 3  500  399 0 0 0', '1078 1 1 581 0 637 906 0 1 1']
+    tester.TestRandomTestPrioritization()
