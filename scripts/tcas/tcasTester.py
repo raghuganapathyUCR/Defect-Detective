@@ -285,5 +285,4 @@ if __name__ == "__main__":
     print(randomTests)
 
     # Experiment 3 - Test Quality of suite for statement coverage
-    temp = ['634 1 0 633 100 535 1 665 795 1 0 0', '601 1 1  777  424  309 1  641  401 0 1 1', '967 1 0  659  204 3825 3  500  399 0 0 0', '1078 1 1 581 0 637 906 0 1 1']
     tester.TestRandomTestPrioritization()
