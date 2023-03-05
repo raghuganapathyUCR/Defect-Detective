@@ -269,10 +269,16 @@ class TCASTESTER:
                 subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
                         
 
-    # Fuction to sort the list of testcases by 
+    # Fuction to sort the list of testcases by length of visited lines
+    # @param coverageData - the coverage data
+    # @return sorted list of testcases
     def sortTestcasesByVisitedLinesLength(self,coverageData):
-        return sorted(coverageData, key=lambda x: len(x['lines']['visited']))
+        return sorted(coverageData, key=lambda x: len(x['lines']['visited']),reverse=True)
     
+
+    # Function to build the test suite using the total coverage prioritization technique
+    # @param self - the object pointer
+    # @return totalCoverageBasedTestSuite - the test suite
     def TotalCoveragePrioritizationStatementBased(self):
         if len(self.coverageData)==0:
             NotImplementedError("Please Run the collectCoverageInfoFromBaseForAllTestCases() method first")
@@ -284,16 +290,25 @@ class TCASTESTER:
         # list to store valid cases for this technique as per project decription
         totalCoverageBasedTestSuite = []
         for test in testcaseList:
+            # Get the set of visited lines for the current testcase
             currentlyVisited = set(test["lines"]["visited"])
+            # If there is no overlap between the visited lines of the current testcase and the visited lines already covered,
+            # add the current testcase to the output
             if not currentlyVisited.issubset(visitedLines):
+                # Add the visited lines of the current testcase to the set of covered lines
                 totalCoverageBasedTestSuite.append(test['testcase'])
+                # Add the visited lines of the current testcase to the set of covered lines
                 visitedLines.update(currentlyVisited)
 
+        # Store the test suite in the object
         self.statementBasedTotalTestSuite = totalCoverageBasedTestSuite
         print("\nLength of statementBasedTotalTestSuite: ", len(totalCoverageBasedTestSuite))
         return totalCoverageBasedTestSuite
     
 
+    # Function to evaluate the incremental coverage of test suite based on the total coverage
+    # @param self - the object pointer
+    # @return None    
     def TestTotalTestPrioritizationStatementBased(self):
         if len(self.statementBasedTotalTestSuite)==0:
             NotImplementedError("This function need to be run after RandomTestPrioritization()")
@@ -357,12 +372,13 @@ if __name__ == "__main__":
     randomTests = tester.RandomTestPrioritizationStatementBased(coverageData)
     print(randomTests)
 
-    # Experiment 3 - Test Quality of suite for statement coverage
+    # Experiment 3 - Test Quality of suite for statement coverage of random test suite
     tester.TestRandomPrioritizationStatementBased()
 
     # Experiment 4 - Build Total Test Prioritization Suite
     totalTests = tester.TotalCoveragePrioritizationStatementBased()
     print(totalTests)
 
-    tester.TestTotalTestPrioritizationStatementBased()
+    # Experiment 5 - Test Quality of suite for statement coverage of total test suite
+    tester.TestTotalTestPrioritizationStatementBased() 
 
