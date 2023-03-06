@@ -3,35 +3,40 @@ import json
 import gzip
 import subprocess
 import random
-
+import logging
 import os
 
 class TCASTESTER:
+
     # Constructor for the TCASTESTER class
     def __init__(self) -> None:
         # Path to the tcas directory
         self.path = "../../benchmarks/tcas/"
         # List to store the coverage data for all testcases
         self.coverageData = []
+        # if the coverageData.json file exists, read it and store it in the coverageData list, saves time while debugging
         if(os.path.isfile("coverageData.json")):
             with open("coverageData.json", 'r') as file:
                 content = file.read().strip()
                 self.coverageData = json.loads(content)
+        
+        # List to store the testcases for the statement based random test suite
         self.statementBasedRandomTestSuite = []
+
+        # Create a list to store the testcases from the universe.txt file
         self.testcases = []
+
+        # List to store the testcases for the statement based total test prioritization suite
         self.statementBasedTotalTestSuite = []
+        # List to store the testcases for the statement based additional coverage test suite
         self.additionalCoverageBasedTestSuite = []
- 
-    
-    # function to read a file line by line
-    # @param fileName - the name of the file to read
-    def readFile(self, fileName):
-        print("TCASTESTER: readFile")
-        file = open(fileName, "r")
-        lines = file.readlines()
-        file.close()
-        return lines
-    
+
+
+        # These lists are used to store the coverage information for the statement based test suites, used in the fault finding part
+        self.statementBasedRandomTestSuiteExtraCoverageInfo = []
+        self.statementBasedTotalTestSuiteExtraCoverageInfo = []
+        self.statementBasedAdditionalTestSuiteExtraCoverageInfo = []
+
 
     
     # Function to collect coverage information for all testcases
@@ -40,19 +45,24 @@ class TCASTESTER:
         print("TCASTESTER: collectCoverageInfoFromBaseForAllTestCases")
         with open(f'{self.path}universe.txt', 'r') as f:
             testcases = f.readlines()
+            self.testcases = testcases
+            f.close()
 
+
+        # if the coverageData.json file exists, read it and store it in the coverageData list. Return the coverageData list instead of 
+        # collecting coverage information again
         if(os.path.isfile("coverageData.json")):
             with open("coverageData.json", 'r') as file:
                 content = file.read().strip()
                 self.coverageData = json.loads(content)
-                self.testcases = testcases
-
+                file.close()
                 return self.coverageData
        
         
-
+        # Create a list to store the coverage information for each testcase available in the universe.txt file
         with open(f'{self.path}universe.txt', 'r') as f:
             testcases = f.readlines()
+            f.close()
 
         # Create a list to store the coverage information for each testcase
         coverage_info = []
@@ -100,6 +110,7 @@ class TCASTESTER:
 
                 # Add the coverage information for this testcase to the list of coverage information of all testcases
                 self.coverageData.append(coverageInfo)
+                f.close()
             
             # Remove the gcov output files and the binary
             subprocess.run(["rm", "-rf", "tcas.gcno"])
@@ -168,16 +179,6 @@ class TCASTESTER:
         # Add the branch coverage to the coverage information
         coverageInfo["lines"] = mp
 
-
-        # Per-Function Coverage - May not be needed, but added for completeness of report   
-        fnMp = {}
-        for function in json_data['files'][0]['functions']:
-
-            fnBlockCoverage = function["blocks_executed"] / function["blocks"] 
-            fnMp[function["name"]] = fnBlockCoverage
-            # print("\t",function)
-        coverageInfo["functionData"] = fnMp
-
         return coverageInfo
 
     # Function to return the coverage data
@@ -186,31 +187,6 @@ class TCASTESTER:
         print("TCASTESTER: getCoverageData")
         return self.coverageData
     
-
-    def RandomTestPrioritizationStatementBased(self,coverage):
-        testcases =  coverage
-        visited_lines = set()  # To keep track of the lines that have been covered
-
-        # Shuffle the testcases randomly
-        random.shuffle(testcases)
-
-        statementBasedRandomTestSuite =[]
-        # Iterate through the shuffled testcases
-        for testcase in testcases:
-            # Get the set of visited lines for the current testcase
-            testcase_visited = set(testcase['lines']['visited'])
-
-            # If there is no overlap between the visited lines of the current testcase and the visited lines already covered, add the current testcase to the output
-            if not testcase_visited.issubset(visited_lines):
-                statementBasedRandomTestSuite.append(testcase['testcase'])
-                # Add the visited lines of the current testcase to the set of covered lines
-                visited_lines.update(testcase_visited)
-
-        self.statementBasedRandomTestSuite = statementBasedRandomTestSuite
-        print("\nLength of statementBasedRandomTestSuite: ", len(statementBasedRandomTestSuite))
-        return statementBasedRandomTestSuite
-    
-
     # Function to dump the coverage data to a JSON file
     # @param coverageData - the coverage data
     # @param filename - the filename to dump the coverage data to
@@ -221,6 +197,35 @@ class TCASTESTER:
         with open(filename, 'w') as outfile:
             json.dump(coverageData, outfile)
 
+    # Function to build the test suite base on the random test prioritization technique
+    def RandomTestPrioritizationStatementBased(self,coverage):
+        testcases =  coverage
+        visited_lines = set()  # To keep track of the lines that have been covered
+
+        # Shuffle the testcases randomly
+        random.shuffle(testcases)
+
+        # List to store the test suite
+        statementBasedRandomTestSuite =[]
+
+        # list to store the extra coverage info of test suite
+        statementBasedRandomTestSuiteExtraCoverageInfo = []
+        # Iterate through the shuffled testcases
+        for testcase in testcases:
+            # Get the set of visited lines for the current testcase
+            testcase_visited = set(testcase['lines']['visited'])
+
+            # If there is no overlap between the visited lines of the current testcase and the visited lines already covered, add the current testcase to the output
+            if not testcase_visited.issubset(visited_lines):
+                statementBasedRandomTestSuite.append(testcase['testcase'])
+                statementBasedRandomTestSuiteExtraCoverageInfo.append(testcase)
+                # Add the visited lines of the current testcase to the set of covered lines
+                visited_lines.update(testcase_visited)
+
+        self.statementBasedRandomTestSuite = statementBasedRandomTestSuite
+        self.statementBasedRandomTestSuiteExtraCoverageInfo = statementBasedRandomTestSuiteExtraCoverageInfo
+        print("\nLength of statementBasedRandomTestSuite: ", len(statementBasedRandomTestSuite))
+        return statementBasedRandomTestSuite
     
     # Function to dump the test suite to a file
     # @param self - the object pointer
@@ -290,6 +295,10 @@ class TCASTESTER:
         visitedLines = set()
         # list to store valid cases for this technique as per project decription
         totalCoverageBasedTestSuite = []
+
+        # list to store the extra coverage info of test suite
+        statementBasedTotalTestSuiteExtraCoverageInfo = []
+
         for test in testcaseList:
             # Get the set of visited lines for the current testcase
             currentlyVisited = set(test["lines"]["visited"])
@@ -298,11 +307,13 @@ class TCASTESTER:
             if not currentlyVisited.issubset(visitedLines):
                 # Add the visited lines of the current testcase to the set of covered lines
                 totalCoverageBasedTestSuite.append(test['testcase'])
+                statementBasedTotalTestSuiteExtraCoverageInfo.append(test)
                 # Add the visited lines of the current testcase to the set of covered lines
                 visitedLines.update(currentlyVisited)
 
         # Store the test suite in the object
         self.statementBasedTotalTestSuite = totalCoverageBasedTestSuite
+        self.statementBasedTotalTestSuiteExtraCoverageInfo = statementBasedTotalTestSuiteExtraCoverageInfo
         print("\nLength of statementBasedTotalTestSuite: ", len(totalCoverageBasedTestSuite))
         return totalCoverageBasedTestSuite
     
@@ -365,8 +376,12 @@ class TCASTESTER:
         remainingTests = self.coverageData.copy()
         # Set of visited lines, start at empty set fill as we go
         visitedLines = set()
+
         # List to store valid cases for this technique as per project description
         additionalCoverageBasedTestSuite = []
+
+        # List to store the extra coverage info of test suite
+        statementBasedAdditionalTestSuiteExtraCoverageInfo = []
 
         # Iterate until all statements/branches are covered by at least one test case
         # TODO: Experiment with using a queue instead of a list to store the remaining tests, this may improve performance
@@ -397,6 +412,10 @@ class TCASTESTER:
 
             # Add the test case that covers the greatest additional number of lines to the output
             additionalCoverageBasedTestSuite.append(bestTest['testcase'])
+
+            # Add the extra coverage info of the test case to the list
+            statementBasedAdditionalTestSuiteExtraCoverageInfo.append(bestTest)
+
             # Add the visited lines of the current testcase to the set of covered lines
             visitedLines.update(set(bestTest["lines"]["visited"]))
 
@@ -405,6 +424,7 @@ class TCASTESTER:
 
         # Store the test suite in the object
         self.additionalCoverageBasedTestSuite = additionalCoverageBasedTestSuite
+        self.statementBasedAdditionalTestSuiteExtraCoverageInfo = statementBasedAdditionalTestSuiteExtraCoverageInfo
         print("\nLength of additionalCoverageBasedTestSuite: ", len(additionalCoverageBasedTestSuite))
         return additionalCoverageBasedTestSuite
     
@@ -455,8 +475,76 @@ class TCASTESTER:
                 subprocess.run(["rm", "-rf", "./tcas.gcda"])
                 subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
 
-    
+    # Function that returns a list of all folders in a benchmark programs path location
+    # @param self - the object pointer
+    # @return sorted list of directories which contain the mutant programs
+    def listFolders(self):
+        folders = []
+        for item in os.listdir(self.path):
+            item_path = os.path.join(self.path, item)
+            if os.path.isdir(item_path):
+                folders.append(item)
+        print(len(folders))
+        folders = sorted(folders, key = lambda x: int(x[1:]))
+        return folders
 
+    # Function to evaluate the fault detection capability of the test suite
+    # @param self - the object pointer
+    # @param testSuite - the test suite to evaluate
+    # @return information about the fault detection capability of the test suite in a map
+    def evaluateFaultDetectionCapability(self, name):
+        if name == "RandomTestPrioritizationStatementBased":
+            testSuite = self.statementBasedRandomTestSuiteExtraCoverageInfo
+        elif name == "TotalCoveragePrioritizationStatementBased":
+            testSuite = self.statementBasedTotalTestSuiteExtraCoverageInfo
+        elif name == "AdditionalCoveragePrioritizationStatementBased":
+            testSuite = self.statementBasedAdditionalTestSuiteExtraCoverageInfo
+        elif name =="base":
+            testSuite = self.coverageData
+        else:
+            ValueError("The name of the test suite is not valid")
+        # Create a map to store the fault detection capability information
+        faultsDetected = {}
+        faultsDetected["testSuite"] = name
+        folders = self.listFolders()
+
+        for folder in folders:
+            # create a map to store the fault detection capability information for each mutant
+            faultsForCurrentMutant = {}
+            for test in testSuite:
+                testcase = test['testcase']
+                # Remove any whitespace from the beginning and end of the testcase
+                testcase = testcase.strip()
+
+                # compile the mutant program
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + folder + "/tcas.c"])
+
+                print("comiled the mutant program in folder: ", self.path + folder," with the following test case: ", testcase)
+                # Run the testcase and save the "True" result as indicated in the project description
+                agrsTest = testcase.split()
+
+                # Run the testcase and save the result to compare with the true result
+                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                if result.stdout.decode('utf-8').strip() != test["TrueResult"]:
+                    
+                    faultsForCurrentMutant["testcaseID"] = test["testcaseID"]
+                    faultsForCurrentMutant["testcase"] = test["testcase"]
+                    faultsForCurrentMutant["TrueResult"] = test["TrueResult"]
+                    faultsForCurrentMutant["MutantResult"] = result.stdout.decode('utf-8').strip()
+                
+               
+                subprocess.run(["rm", "-rf", "tcas"])
+                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
+                subprocess.run(["rm", "-rf", "./tcas.gcda"])
+                subprocess.run(["rm", "-rf", "./tcas.gcno"])
+                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+            
+            faultsDetected[folder] = faultsForCurrentMutant
+
+        # Return the fault detection capability of the test suite
+        return faultsDetected
+        
+    
 
 if __name__ == "__main__":
     print("TCASTESTER: main")
@@ -474,21 +562,24 @@ if __name__ == "__main__":
     # Experiment 2 - Collect coverage information for the statement-based random test suite
     coverageData = tester.getCoverageData()
     randomTests = tester.RandomTestPrioritizationStatementBased(coverageData)
-    print(randomTests)
+ 
 
     # Experiment 3 - Test Quality of suite for statement coverage of random test suite
     tester.TestRandomPrioritizationStatementBased()
 
     # Experiment 4 - Build Total Test Prioritization Suite
     totalTests = tester.TotalCoveragePrioritizationStatementBased()
-    print(totalTests)
+
 
     # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     tester.TestTotalTestPrioritizationStatementBased() 
 
     addTests = tester.AdditionalCoveragePrioritizationStatementBased()
-    print(addTests)
+
 
     # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     tester.TestAdditionalTestPrioritizationStatementBased() 
+
+    faultMp = tester.evaluateFaultDetectionCapability("base")
+    print(faultMp)
 
