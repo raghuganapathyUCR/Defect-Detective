@@ -24,7 +24,9 @@ class TCASTESTER:
         self.statementBasedRandomTestSuite = []
 
         # Create a list to store the testcases from the universe.txt file
-        self.testcases = []
+        with open(f'{self.path}universe.txt', 'r') as f:
+            testcases = f.readlines()
+            self.testcases = testcases
 
         # List to store the testcases for the statement based total test prioritization suite
         self.statementBasedTotalTestSuite = []
@@ -37,16 +39,17 @@ class TCASTESTER:
         self.statementBasedTotalTestSuiteExtraCoverageInfo = []
         self.statementBasedAdditionalTestSuiteExtraCoverageInfo = []
 
+        # Fault finding part
+        # List to store the faults in the universe.txt file
+        self.baseFaults = []
+
 
     
     # Function to collect coverage information for all testcases
     # @return coverageData - a list of maps containing the coverage information for each testcase
     def collectCoverageInfoFromBaseForAllTestCases(self):
         print("TCASTESTER: collectCoverageInfoFromBaseForAllTestCases")
-        with open(f'{self.path}universe.txt', 'r') as f:
-            testcases = f.readlines()
-            self.testcases = testcases
-            f.close()
+        testcases = self.testcases
 
 
         # if the coverageData.json file exists, read it and store it in the coverageData list. Return the coverageData list instead of 
@@ -186,6 +189,20 @@ class TCASTESTER:
     def getCoverageData(self):
         print("TCASTESTER: getCoverageData")
         return self.coverageData
+    
+
+    # Function to return the base faults
+    # @return baseFaults - the base faults
+    def getBaseFaults(self):
+        if os.path.exists("baseFaults.json"):
+            with open("baseFaults.json") as f:
+                faultsDetected = json.load(f)
+            return faultsDetected
+        Exception("Base Faults not found")
+
+
+    def getSizeOfBaseTestSuite(self):
+        return len(self.testcases)
     
     # Function to dump the coverage data to a JSON file
     # @param coverageData - the coverage data
@@ -374,6 +391,10 @@ class TCASTESTER:
 
         # Create a copy of the coverage data
         remainingTests = self.coverageData.copy()
+
+        # Sort the test cases by length of visited lines
+        remainingTests = self.sortTestcasesByVisitedLinesLength(remainingTests)
+
         # Set of visited lines, start at empty set fill as we go
         visitedLines = set()
 
@@ -488,11 +509,18 @@ class TCASTESTER:
         folders = sorted(folders, key = lambda x: int(x[1:]))
         return folders
 
-    # Function to evaluate the fault detection capability of the test suite
+    # Function to evaluate the fault detection capability of a test suite
     # @param self - the object pointer
     # @param testSuite - the test suite to evaluate
     # @return information about the fault detection capability of the test suite in a map
     def evaluateFaultDetectionCapability(self, name):
+
+        # Check if baseFaults.json exists, if it does, load it and return, if not, create it
+        if name=="base" and os.path.exists("baseFaults.json"):
+            with open("baseFaults.json") as f:
+                faultsDetected = json.load(f)
+            return faultsDetected
+
         if name == "RandomTestPrioritizationStatementBased":
             testSuite = self.statementBasedRandomTestSuiteExtraCoverageInfo
         elif name == "TotalCoveragePrioritizationStatementBased":
@@ -509,15 +537,16 @@ class TCASTESTER:
         folders = self.listFolders()
 
         for folder in folders:
-            # create a map to store the fault detection capability information for each mutant
-            faultsForCurrentMutant = {}
+             # compile the mutant program
+            subprocess.run(["gcc-12", "-Wno-return-type", "-w", "-g", "-o", "tcas", self.path + folder + "/tcas.c"])
+            # Faults in this test
+            testFaults = []
             for test in testSuite:
                 testcase = test['testcase']
                 # Remove any whitespace from the beginning and end of the testcase
                 testcase = testcase.strip()
 
-                # compile the mutant program
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + folder + "/tcas.c"])
+                
 
                 print("comiled the mutant program in folder: ", self.path + folder," with the following test case: ", testcase)
                 # Run the testcase and save the "True" result as indicated in the project description
@@ -526,21 +555,31 @@ class TCASTESTER:
                 # Run the testcase and save the result to compare with the true result
                 result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
                 if result.stdout.decode('utf-8').strip() != test["TrueResult"]:
-                    
-                    faultsForCurrentMutant["testcaseID"] = test["testcaseID"]
-                    faultsForCurrentMutant["testcase"] = test["testcase"]
-                    faultsForCurrentMutant["TrueResult"] = test["TrueResult"]
-                    faultsForCurrentMutant["MutantResult"] = result.stdout.decode('utf-8').strip()
+                    faultsForCurrentMutantGivenATestCase = {}
+                    faultsForCurrentMutantGivenATestCase["testcaseID"] = test["testcaseID"]
+                    faultsForCurrentMutantGivenATestCase["testcase"] = test["testcase"]
+                    faultsForCurrentMutantGivenATestCase["TrueResult"] = test["TrueResult"]
+                    faultsForCurrentMutantGivenATestCase["MutantResult"] = result.stdout.decode('utf-8').strip()
+                    testFaults.append(faultsForCurrentMutantGivenATestCase)
                 
-               
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "./tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
-            
-            faultsDetected[folder] = faultsForCurrentMutant
+            # clear binary before running the next mutant   
+            subprocess.run(["rm", "-rf", "tcas"])
+            faultsDetected[folder] = testFaults
 
+        # Dump the fault detection capability information to a file
+        if name == "base":
+            fName = "BaseFaults.json"
+        elif name == "RandomTestPrioritizationStatementBased":
+           fName = "RandomTestPrioritizationStatementBasedFaults.json"
+        elif name == "TotalCoveragePrioritizationStatementBased":
+            fName = "TotalCoveragePrioritizationStatementBasedFaults.json"
+        elif name == "AdditionalCoveragePrioritizationStatementBased":
+            fName = "AdditionalCoveragePrioritizationStatementBasedFaults.json"
+        
+        with open(fName, 'w') as outfile:
+            json.dump(faultsDetected, outfile, indent=4)
+        
+        self.baseFaults = faultsDetected
         # Return the fault detection capability of the test suite
         return faultsDetected
         
@@ -564,22 +603,41 @@ if __name__ == "__main__":
     randomTests = tester.RandomTestPrioritizationStatementBased(coverageData)
  
 
-    # Experiment 3 - Test Quality of suite for statement coverage of random test suite
-    tester.TestRandomPrioritizationStatementBased()
+    # # Experiment 3 - Test Quality of suite for statement coverage of random test suite
+    # tester.TestRandomPrioritizationStatementBased()
 
     # Experiment 4 - Build Total Test Prioritization Suite
     totalTests = tester.TotalCoveragePrioritizationStatementBased()
 
 
-    # Experiment 5 - Test Quality of suite for statement coverage of total test suite
-    tester.TestTotalTestPrioritizationStatementBased() 
+    # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
+    # tester.TestTotalTestPrioritizationStatementBased() 
 
     addTests = tester.AdditionalCoveragePrioritizationStatementBased()
 
 
-    # Experiment 5 - Test Quality of suite for statement coverage of total test suite
-    tester.TestAdditionalTestPrioritizationStatementBased() 
+    # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
+    # tester.TestAdditionalTestPrioritizationStatementBased() 
 
-    faultMp = tester.evaluateFaultDetectionCapability("base")
-    print(faultMp)
+    # Experiment 6 - Evaluate the fault detection capability of the test suite
+    # Options as follows:
+        # "base" - the base test suite
+        # "RandomTestPrioritizationStatementBased" - the statement-based random test suite
+        # "TotalCoveragePrioritizationStatementBased" - the statement-based total test suite
+        # "AdditionalCoveragePrioritizationStatementBased" - the statement-based additional test suite
 
+    testSuiteName = "TotalCoveragePrioritizationStatementBased"
+    faultMp = tester.evaluateFaultDetectionCapability(f"{testSuiteName}")
+
+    del faultMp["testSuite"]
+    
+    count = 0
+    for mutant in faultMp:
+         
+        if len(faultMp[mutant])>0:
+            count+=1
+    
+    mutationScore = count/len(faultMp)
+         
+    print(f"Mutation Score is {mutationScore} for {testSuiteName}: it kills {count} out of {len(faultMp)} mutants.")
+   
