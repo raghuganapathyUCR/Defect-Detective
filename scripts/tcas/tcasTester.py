@@ -155,11 +155,7 @@ class TCASTESTER:
                 f.close()
             
             # Remove the gcov output files and the binary
-            subprocess.run(["rm", "-rf", "tcas.gcno"])
-            subprocess.run(["rm", "-rf", "tcas"])
-            subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-            subprocess.run(["rm", "-rf", "./tcas.gcda"])
-            subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+            self.cleanUpBetweenRuns()
         
         print("Collected 100 percent of the coverage data")
         
@@ -381,11 +377,7 @@ class TCASTESTER:
                         print("Coverage For the suite is currently: ", len(visited_lines)/total_lines)
                         
                         print("\n\n")
-                subprocess.run(["rm", "-rf", "tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+                self.cleanUpBetweenRuns()
 
     # Function to test the iterative coverage algorithm described in the project description, 
     # to show that we iteratively cover more branches with each testcase
@@ -429,11 +421,7 @@ class TCASTESTER:
                         print("Coverage For the suite is currently: ", len(visited_branches)/total_branches)
                         
                         print("\n\n")
-                subprocess.run(["rm", "-rf", "tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+                self.cleanUpBetweenRuns()
                         
 
     # Fuction to sort the list of testcases by length of visited lines
@@ -570,11 +558,7 @@ class TCASTESTER:
                         print("Coverage For the suite is currently: ", len(visited_lines)/total_lines)
                         
                         print("\n\n")
-                subprocess.run(["rm", "-rf", "tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+                self.cleanUpBetweenRuns()
 
     # Function to evaluate the incremental coverage of test suite based on the total branch coverage
     # @param self - the object pointer
@@ -620,12 +604,8 @@ class TCASTESTER:
                         print("Coverage For the suite is currently: ", len(visited_branch)/total_branch)
                         
                         print("\n\n")
-                subprocess.run(["rm", "-rf", "tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
-    
+                self.cleanUpBetweenRuns()
+
 
     # Function to build a test suite based on Additional Coverage Prioritization - based on statement coverage
     # @param self - the object pointer
@@ -811,11 +791,7 @@ class TCASTESTER:
                         print("Coverage For the suite is currently: ", len(visited_lines)/total_lines)
                         
                         print("\n\n")
-                subprocess.run(["rm", "-rf", "tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+                self.cleanUpBetweenRuns()
     
      # Function to evaluate the incremental coverage of test suite based on the additional branch coverage
     # @param self - the object pointer
@@ -861,11 +837,7 @@ class TCASTESTER:
                         print("Coverage For the suite is currently: ", len(visited_branches)/total_branches)
                         
                         print("\n\n")
-                subprocess.run(["rm", "-rf", "tcas.gcno"])
-                subprocess.run(["rm", "-rf", "tcas"])
-                subprocess.run(["rm", "-rf", "./tcas.dSYM"])
-                subprocess.run(["rm", "-rf", "./tcas.gcda"])
-                subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+                self.cleanUpBetweenRuns()
 
     # Function that returns a list of all folders in a benchmark programs path location
     # @param self - the object pointer
@@ -997,7 +969,13 @@ class TCASTESTER:
     
         return faultsDetected
         
-    
+    def cleanUpBetweenRuns(self):
+        subprocess.run(["rm", "-rf", f"{self.program}.gcno"])
+        subprocess.run(["rm", "-rf", f"{self.program}"])
+        subprocess.run(["rm", "-rf", f"./{self.program}.dSYM"])
+        subprocess.run(["rm", "-rf", f"./{self.program}.gcda"])
+        subprocess.run(["rm", "-rf", f"{self.program}.gcov.json.gz"])
+        
 
 if __name__ == "__main__":
     print("TCASTESTER: main")
