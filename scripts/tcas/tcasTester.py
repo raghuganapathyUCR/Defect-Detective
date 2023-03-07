@@ -22,7 +22,7 @@ class TCASTESTER:
                 self.coverageData = json.loads(content)
         
      
-        self.program = "tcas",
+        self.program = "tcas"
         self.fileName = "tcas.c"
 
         self.testcases = []
@@ -96,7 +96,7 @@ class TCASTESTER:
             coverageMeta = {}
 
             # Compile the program with gcov flags
-            subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+            subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", self.program , self.path + self.fileName])
 
 
             # Remove any whitespace from the beginning and end of the testcase
@@ -104,7 +104,7 @@ class TCASTESTER:
 
             # Run the testcase and save the "True" result as indicated in the project description
             agrsTest = testcase.split()
-            result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+            result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
 
             
             
@@ -348,10 +348,10 @@ class TCASTESTER:
     # @return None
     def TestRandomPrioritizationStatementBased(self):
         if len(self.statementBasedRandomTestSuite)==0:
-            NotImplementedError("This function need to be run after RandomTestPrioritization()")
+            raise NotImplementedError("This function need to be run after RandomTestPrioritization()")
         visited_lines = set()  # To keep track of the lines that have been covered
         for testcase in self.statementBasedRandomTestSuite:
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", self.program , self.path + self.fileName])
 
             
 
@@ -360,7 +360,7 @@ class TCASTESTER:
 
                 # Run the testcase and save the "True" result as indicated in the project description
                 agrsTest = testcase.split()
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
                 subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
@@ -396,10 +396,10 @@ class TCASTESTER:
     # @return None
     def TestRandomPrioritizationBranchBased(self):
         if len(self.branchBasedRandomTestSuite)==0:
-            NotImplementedError("This function need to be run after RandomTestPrioritization()")
+            raise NotImplementedError("This function need to be run after RandomTestPrioritization()")
         visited_branches = set()  # To keep track of the lines that have been covered
         for testcase in self.branchBasedRandomTestSuite:
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", self.program , self.path + self.fileName])
 
             
 
@@ -408,7 +408,7 @@ class TCASTESTER:
 
                 # Run the testcase and save the "True" result as indicated in the project description
                 agrsTest = testcase.split()
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
                 subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
@@ -458,7 +458,7 @@ class TCASTESTER:
     # @return totalCoverageBasedTestSuite - the test suite
     def TotalCoveragePrioritizationStatementBased(self):
         if len(self.coverageData)==0:
-            NotImplementedError("Please Run the collectCoverageInfoFromBaseForAllTestCases() method first")
+            raise NotImplementedError("Please Run the collectCoverageInfoFromBaseForAllTestCases() method first")
 
         # Sorted test case list based on order
         testcaseList = self.sortTestcasesByVisitedLinesLength(self.coverageData)
@@ -495,7 +495,7 @@ class TCASTESTER:
     # @return totalCoverageBasedTestSuite - the test suite
     def TotalCoveragePrioritizationBranchBased(self):
         if len(self.coverageData)==0:
-            NotImplementedError("Please Run the collectCoverageInfoFromBaseForAllTestCases() method first")
+            raise NotImplementedError("Please Run the collectCoverageInfoFromBaseForAllTestCases() method first")
 
         # Sorted test case list based on order
         testcaseList = self.sortTestcasesByVisitedBranchesLength(self.coverageData)
@@ -537,10 +537,10 @@ class TCASTESTER:
     # @return None    
     def TestTotalTestPrioritizationStatementBased(self):
         if len(self.statementBasedTotalTestSuite)==0:
-            NotImplementedError("This function need to be run after RandomTestPrioritization()")
+            raise NotImplementedError("This function need to be run after RandomTestPrioritization()")
         visited_lines = set()  # To keep track of the lines that have been covered
         for testcase in self.statementBasedTotalTestSuite:
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", self.program , self.path + self.fileName])
 
             
 
@@ -549,7 +549,7 @@ class TCASTESTER:
 
                 # Run the testcase and save the "True" result as indicated in the project description
                 agrsTest = testcase.split()
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
                 subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
@@ -584,10 +584,10 @@ class TCASTESTER:
     # @return None    
     def TestTotalTestPrioritizationBranchBased(self):
         if len(self.branchBasedTotalTestSuite)==0:
-            NotImplementedError("This function need to be run after RandomTestPrioritization()")
+            raise NotImplementedError("This function need to be run after RandomTestPrioritization()")
         visited_branch = set()  # To keep track of the branch that have been covered
         for testcase in self.branchBasedTotalTestSuite:
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o",self.program , self.path + self.fileName])
 
             
 
@@ -596,7 +596,7 @@ class TCASTESTER:
 
                 # Run the testcase and save the "True" result as indicated in the project description
                 agrsTest = testcase.split()
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
                 subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
@@ -778,10 +778,10 @@ class TCASTESTER:
     # @return None    
     def TestAdditionalTestPrioritizationStatementBased(self):
         if len(self.additionalCoverageBasedTestSuite)==0:
-            NotImplementedError("This function need to be run after AdditionalCoveragePrioritization()")
+            raise NotImplementedError("This function need to be run after AdditionalCoveragePrioritization()")
         visited_lines = set()  # To keep track of the lines that have been covered
         for testcase in self.additionalCoverageBasedTestSuite:
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", self.program , self.path + self.fileName])
 
             
 
@@ -790,7 +790,7 @@ class TCASTESTER:
 
                 # Run the testcase and save the "True" result as indicated in the project description
                 agrsTest = testcase.split()
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
                 subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
@@ -825,10 +825,10 @@ class TCASTESTER:
     # @return None    
     def TestAdditionalTestPrioritizationBranchBased(self):
         if len(self.brachBasedAdditionalCoverageBasedTestSuite)==0:
-            NotImplementedError("This function need to be run after AdditionalCoveragePrioritization()")
+           raise NotImplementedError("This function need to be run after AdditionalCoveragePrioritization()")
         visited_branches = set()  # To keep track of the branches that have been covered
         for testcase in self.brachBasedAdditionalCoverageBasedTestSuite:
-                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", "tcas", self.path + "tcas.c"])
+                subprocess.run(["gcc-12", "-Wno-return-type", "-fprofile-arcs", "-ftest-coverage", "-w", "-g", "-o", self.program , self.path + self.fileName])
 
             
 
@@ -837,7 +837,7 @@ class TCASTESTER:
 
                 # Run the testcase and save the "True" result as indicated in the project description
                 agrsTest = testcase.split()
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
                 subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
 
@@ -921,7 +921,10 @@ class TCASTESTER:
         elif name =="base":
             testSuite = self.coverageData
         else:
-            ValueError("The name of the test suite is not valid")
+            raise ValueError("The name of the test suite is not valid")
+
+        if len(testSuite)==0:
+            raise NotImplementedError(f"This function need to be run after the test suite for {name} is generated")
         # Create a map to store the fault detection capability information
         faultsDetected = {}
         faultsDetected["testSuite"] = name
@@ -929,7 +932,7 @@ class TCASTESTER:
 
         for folder in folders:
              # compile the mutant program
-            subprocess.run(["gcc-12", "-Wno-return-type", "-w", "-g", "-o", "tcas", self.path + folder + "/tcas.c"])
+            subprocess.run(["gcc-12", "-Wno-return-type", "-w", "-g", "-o", self.program , self.path+folder+"/" + self.fileName])
             # Faults in this test
             testFaults = []
             print("Compiling mutant program: ", folder, " for all test cases in the test suite: ", name)
@@ -945,7 +948,7 @@ class TCASTESTER:
                 agrsTest = testcase.split()
 
                 # Run the testcase and save the result to compare with the true result
-                result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+                result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 if result.stdout.decode('utf-8').strip() != test["TrueResult"]:
                     faultsForCurrentMutantGivenATestCase = {}
                     faultsForCurrentMutantGivenATestCase["testcaseID"] = test["testcaseID"]
@@ -974,7 +977,7 @@ class TCASTESTER:
         elif name == "AdditionalCoveragePrioritizationBranchBased":
             fName = "AdditionalCoveragePrioritizationBranchBasedFaults.json"
         else:
-            ValueError("The name of the test suite is not valid")
+            raise ValueError("The name of the test suite is not valid")
         
         with open(fName, 'w') as outfile:
             json.dump(faultsDetected, outfile, indent=4)
@@ -1000,7 +1003,7 @@ class TCASTESTER:
     
 
 if __name__ == "__main__":
-    # print("TCASTESTER: main")
+    print("TCASTESTER: main")
     print("Task: For tcas.c and it's associated universe we have to do the following: ")
     print("\t1) Collect coverage information for all testcases - we collect the following coverage information for each testcase: ")
     print("\t\t1.1) it's statement coverage")
@@ -1096,20 +1099,21 @@ if __name__ == "__main__":
     # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     tester.TestAdditionalTestPrioritizationBranchBased() 
 
-    # # Experiment 6 - Evaluate the fault detection capability of the test suite
-    # # Options as follows:
-    # #     "base" - the base test suite
-    # #     "RandomTestPrioritizationStatementBased" - the statement-based random test suite
-    # #     "TotalCoveragePrioritizationStatementBased" - the statement-based total test suite
-    # #     "AdditionalCoveragePrioritizationStatementBased" - the statement-based additional test suite
-    # #     "RandomTestPrioritizationBranchBased" - the branch-based random test suite
-    # #     "TotalCoveragePrioritizationBranchBased" - the branch-based total test suite
-    # #     "AdditionalCoveragePrioritizationBranchBased" - the branch-based additional test suite
+    # Experiment 6 - Evaluate the fault detection capability of the test suite
+    # Options as follows:
+    #     "base" - the base test suite
+    #     "RandomTestPrioritizationStatementBased" - the statement-based random test suite
+    #     "TotalCoveragePrioritizationStatementBased" - the statement-based total test suite
+    #     "AdditionalCoveragePrioritizationStatementBased" - the statement-based additional test suite
+    #     "RandomTestPrioritizationBranchBased" - the branch-based random test suite
+    #     "TotalCoveragePrioritizationBranchBased" - the branch-based total test suite
+    #     "AdditionalCoveragePrioritizationBranchBased" - the branch-based additional test suite
 
     testSuiteNames = ["base", "RandomTestPrioritizationStatementBased", "TotalCoveragePrioritizationStatementBased", "AdditionalCoveragePrioritizationStatementBased", "RandomTestPrioritizationBranchBased", "TotalCoveragePrioritizationBranchBased", "AdditionalCoveragePrioritizationBranchBased"]
     print("\n-----------------------------14. EVALUATING FAULT DETECTION CAPABILITY OF ALL TEST SUITES--------------------------------------\n")
     for name in testSuiteNames:
         print("\t\n-------------------EVALUATING FAULT DETECTION CAPABILITY OF " + name.upper() + "-------------------\n")
+       
         faultMp = tester.evaluateFaultDetectionCapability(name)
 
     print("\n----------------END OF EXPERIMENT - Check scripts/tcas for all the dumped coverage info and faults detected per testsuite---------------\n")
