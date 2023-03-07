@@ -133,12 +133,12 @@ class TCASTESTER:
 
 
             # Run gcov on the output binary
-            gcovRes = subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+            gcovRes = subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
             # print(gcovRes.stdout.decode('utf-8').strip())
 
 
             # Read the gcov output file and parse it into a JSON dictionary
-            with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+            with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                 json_bytes = f.read()                     
                 json_str = json_bytes.decode('utf-8')            
                 json_data = json.loads(json_str)     
@@ -355,9 +355,9 @@ class TCASTESTER:
                 agrsTest = testcase.split()
                 result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
-                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
 
-                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                     json_bytes = f.read()                     
                     json_str = json_bytes.decode('utf-8')            
                     json_data = json.loads(json_str)     
@@ -399,9 +399,9 @@ class TCASTESTER:
                 agrsTest = testcase.split()
                 result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
-                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
 
-                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                     json_bytes = f.read()                     
                     json_str = json_bytes.decode('utf-8')            
                     json_data = json.loads(json_str)     
@@ -536,9 +536,9 @@ class TCASTESTER:
                 agrsTest = testcase.split()
                 result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
-                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
 
-                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                     json_bytes = f.read()                     
                     json_str = json_bytes.decode('utf-8')            
                     json_data = json.loads(json_str)     
@@ -579,9 +579,9 @@ class TCASTESTER:
                 agrsTest = testcase.split()
                 result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
-                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
 
-                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                     json_bytes = f.read()                     
                     json_str = json_bytes.decode('utf-8')            
                     json_data = json.loads(json_str)     
@@ -769,9 +769,9 @@ class TCASTESTER:
                 agrsTest = testcase.split()
                 result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
-                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
 
-                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                     json_bytes = f.read()                     
                     json_str = json_bytes.decode('utf-8')            
                     json_data = json.loads(json_str)     
@@ -812,9 +812,9 @@ class TCASTESTER:
                 agrsTest = testcase.split()
                 result = subprocess.run([f"./{self.program}"] + agrsTest, stdout=subprocess.PIPE)
                 print(f"Running testcase... ", testcase)
-                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+                subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", self.program], stdout=subprocess.PIPE)
 
-                with gzip.open('tcas.gcov.json.gz', 'rb') as f:
+                with gzip.open(f'{self.program}.gcov.json.gz', 'rb') as f:
                     json_bytes = f.read()                     
                     json_str = json_bytes.decode('utf-8')            
                     json_data = json.loads(json_str)     
@@ -927,7 +927,7 @@ class TCASTESTER:
                     testFaults.append(faultsForCurrentMutantGivenATestCase)
                 
             # clear binary before running the next mutant   
-            subprocess.run(["rm", "-rf", "tcas"])
+            subprocess.run(["rm", "-rf", self.program])
             faultsDetected[folder] = testFaults
 
         # Dump the fault detection capability information to a file
