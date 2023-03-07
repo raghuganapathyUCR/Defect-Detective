@@ -2,8 +2,8 @@
     "testSuite": "TotalCoveragePrioritizationStatementBased",
     "v1": [
         {
-            "testcaseID": 317,
-            "testcase": "604 1 0 1111  196 8248 0  721  400 0 0 0",
+            "testcaseID": 579,
+            "testcase": "775 1 0 642  211 5204 1  540  500 1 0 1",
             "TrueResult": "0",
             "MutantResult": "1"
         }
@@ -13,7 +13,14 @@
     "v4": [],
     "v5": [],
     "v6": [],
-    "v7": [],
+    "v7": [
+        {
+            "testcaseID": 579,
+            "testcase": "775 1 0 642  211 5204 1  540  500 1 0 1",
+            "TrueResult": "0",
+            "MutantResult": "1"
+        }
+    ],
     "v8": [],
     "v9": [],
     "v10": [],
@@ -22,15 +29,15 @@
     "v13": [],
     "v14": [],
     "v15": [],
-    "v16": [
+    "v16": [],
+    "v17": [
         {
-            "testcaseID": 317,
-            "testcase": "604 1 0 1111  196 8248 0  721  400 0 0 0",
+            "testcaseID": 579,
+            "testcase": "775 1 0 642  211 5204 1  540  500 1 0 1",
             "TrueResult": "0",
             "MutantResult": "1"
         }
     ],
-    "v17": [],
     "v18": [],
     "v19": [],
     "v20": [],
@@ -38,8 +45,8 @@
     "v22": [],
     "v23": [
         {
-            "testcaseID": 386,
-            "testcase": "1062 1 1 1941 545 582 2 772 780 1 2 0",
+            "testcaseID": 1311,
+            "testcase": "927 1 1 4702  251 1093 0  739  740 1 0 0",
             "TrueResult": "2",
             "MutantResult": "0"
         }
@@ -50,8 +57,8 @@
     "v27": [],
     "v28": [
         {
-            "testcaseID": 386,
-            "testcase": "1062 1 1 1941 545 582 2 772 780 1 2 0",
+            "testcaseID": 1311,
+            "testcase": "927 1 1 4702  251 1093 0  739  740 1 0 0",
             "TrueResult": "2",
             "MutantResult": "0"
         }
@@ -59,8 +66,8 @@
     "v29": [],
     "v30": [
         {
-            "testcaseID": 386,
-            "testcase": "1062 1 1 1941 545 582 2 772 780 1 2 0",
+            "testcaseID": 1311,
+            "testcase": "927 1 1 4702  251 1093 0  739  740 1 0 0",
             "TrueResult": "2",
             "MutantResult": "0"
         }
@@ -71,16 +78,16 @@
     "v34": [],
     "v35": [
         {
-            "testcaseID": 386,
-            "testcase": "1062 1 1 1941 545 582 2 772 780 1 2 0",
+            "testcaseID": 1311,
+            "testcase": "927 1 1 4702  251 1093 0  739  740 1 0 0",
             "TrueResult": "2",
             "MutantResult": "0"
         }
     ],
     "v36": [
         {
-            "testcaseID": 386,
-            "testcase": "1062 1 1 1941 545 582 2 772 780 1 2 0",
+            "testcaseID": 1311,
+            "testcase": "927 1 1 4702  251 1093 0  739  740 1 0 0",
             "TrueResult": "2",
             "MutantResult": "1"
         }
@@ -90,8 +97,8 @@
     "v39": [],
     "v40": [
         {
-            "testcaseID": 386,
-            "testcase": "1062 1 1 1941 545 582 2 772 780 1 2 0",
+            "testcaseID": 1311,
+            "testcase": "927 1 1 4702  251 1093 0  739  740 1 0 0",
             "TrueResult": "2",
             "MutantResult": "0"
         }

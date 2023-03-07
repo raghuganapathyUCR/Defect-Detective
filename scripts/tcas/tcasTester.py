@@ -22,6 +22,8 @@ class TCASTESTER:
         
         # List to store the testcases for the statement based random test suite
         self.statementBasedRandomTestSuite = []
+        self.program = "tcas",
+        self.fileName = "tcas.c"
 
         # Create a list to store the testcases from the universe.txt file
         with open(f'{self.path}universe.txt', 'r') as f:
@@ -52,14 +54,16 @@ class TCASTESTER:
         testcases = self.testcases
 
 
+
+
         # if the coverageData.json file exists, read it and store it in the coverageData list. Return the coverageData list instead of 
         # collecting coverage information again
-        if(os.path.isfile("coverageData.json")):
-            with open("coverageData.json", 'r') as file:
-                content = file.read().strip()
-                self.coverageData = json.loads(content)
-                file.close()
-                return self.coverageData
+        # if(os.path.isfile("coverageData.json")):
+        #     with open("coverageData.json", 'r') as file:
+        #         content = file.read().strip()
+        #         self.coverageData = json.loads(content)
+        #         file.close()
+        #         return self.coverageData
        
         
         # Create a list to store the coverage information for each testcase available in the universe.txt file
@@ -72,6 +76,7 @@ class TCASTESTER:
 
         # Loop through each testcase and run it
         for i, testcase in enumerate(testcases):
+
         
             # Map to store the coverage metadata for the current testcase
             coverageMeta = {}
@@ -82,11 +87,11 @@ class TCASTESTER:
 
             # Remove any whitespace from the beginning and end of the testcase
             testcase = testcase.strip()
-            print(f"Running testcase {i+1}... ", testcase)
 
             # Run the testcase and save the "True" result as indicated in the project description
             agrsTest = testcase.split()
             result = subprocess.run(["./tcas"] + agrsTest, stdout=subprocess.PIPE)
+            print(f"Running testcase {i+1}... ", testcase)
 
             # capture the metadata for the current testcase
             coverageMeta["testcaseID"] = i+1
@@ -96,6 +101,7 @@ class TCASTESTER:
 
             # Run gcov on the output binary
             gcovRes = subprocess.run(["gcov-12","-a","-w","-b","-f", "-j", "tcas"], stdout=subprocess.PIPE)
+            # print(gcovRes.stdout.decode('utf-8').strip())
 
 
             # Read the gcov output file and parse it into a JSON dictionary
@@ -121,6 +127,8 @@ class TCASTESTER:
             subprocess.run(["rm", "-rf", "./tcas.dSYM"])
             subprocess.run(["rm", "-rf", "./tcas.gcda"])
             subprocess.run(["rm", "-rf", "tcas.gcov.json.gz"])
+        
+       
         
         return self.coverageData
 
@@ -148,7 +156,13 @@ class TCASTESTER:
 
         # To do the additional Coverage part
         # Map to store the line coverage information
-        mp = {
+        lnMp = {
+            "visited" : [],
+            "notVisited" : []
+        }
+
+        # to do the branch coverage part
+        brMp = {
             "visited" : [],
             "notVisited" : []
         }
@@ -158,29 +172,44 @@ class TCASTESTER:
         # Loop through each line in the JSON data
         for line in lines:
             # If the line was executed, add it to the list of visited lines
-            if line["count"] > 0:
-                mp["visited"].append(line["line_number"])
+
+            count = line["count"]
+            if count > 0:
+                lnMp["visited"].append(line["line_number"])
             else:
                 # Otherwise, add it to the list of not visited lines
-                mp["notVisited"].append(line["line_number"])
+                lnMp["notVisited"].append(line["line_number"])
             
             # If the line has "branches", loop through each branch
-            if "branches" in line:
-                # Loop through each branch in the line
-                for branch in line["branches"]:
+            branches = line["branches"]
+            if branches:
+                for i, branch in enumerate(branches):
                     # Increment the total number of branches
                     total_branches += 1
-                    # If the branch was taken, increment the taken branches
-                    if branch["count"] > 0:
-                        taken_branches += 1
+
+                    branchCount = branch["count"]
+                    # If the branch was executed, add it to the list of visited branches
+                    if branchCount > 0:
+                        brMp["visited"].append((line["line_number"],i))
+                        taken_branches += 1 
+                    # Otherwise, add it to the list of not visited branches
+                    else:
+                        brMp["notVisited"].append((line["line_number"],i))
+
+                    
+
+                        
         # Calculate the branch coverage
         if total_branches > 0:
-            branch_coverage = (taken_branches / total_branches) * 100
+            branch_coverage = (len(set(brMp['visited'])) / (len(set(brMp['visited']))+len(set(brMp['notVisited'])))) * 100
         else:
             branch_coverage = 0.0
-
+        print("Branch Coverage: ", brMp)
         # Add the branch coverage to the coverage information
-        coverageInfo["lines"] = mp
+        coverageInfo["lines"] = lnMp
+        coverageInfo["branches"] = brMp
+
+
 
         return coverageInfo
 
@@ -308,6 +337,8 @@ class TCASTESTER:
 
         # Sorted test case list based on order
         testcaseList = self.sortTestcasesByVisitedLinesLength(self.coverageData)
+
+        print(testcaseList[0]['testcaseID'])
         # Set of visited lines, start at empty set fill as we go
         visitedLines = set()
         # list to store valid cases for this technique as per project decription
@@ -579,7 +610,8 @@ class TCASTESTER:
         with open(fName, 'w') as outfile:
             json.dump(faultsDetected, outfile, indent=4)
         
-        self.baseFaults = faultsDetected
+        if name == "base":
+            self.baseFaults = faultsDetected
         # Return the fault detection capability of the test suite
         return faultsDetected
         
@@ -595,49 +627,49 @@ if __name__ == "__main__":
     # print(tester.getCoverageData())
 
 
-    # Test 2 - Dump the coverage information to a file
-    tester.dumpCoverageData(tester.getCoverageData(), "coverageData.json")
+    # # Test 2 - Dump the coverage information to a file
+    # tester.dumpCoverageData(tester.getCoverageData(), "coverageData.json")
 
-    # Experiment 2 - Collect coverage information for the statement-based random test suite
-    coverageData = tester.getCoverageData()
-    randomTests = tester.RandomTestPrioritizationStatementBased(coverageData)
+    # # Experiment 2 - Collect coverage information for the statement-based random test suite
+    # coverageData = tester.getCoverageData()
+    # randomTests = tester.RandomTestPrioritizationStatementBased(coverageData)
  
 
-    # # Experiment 3 - Test Quality of suite for statement coverage of random test suite
+    # # # Experiment 3 - Test Quality of suite for statement coverage of random test suite
     # tester.TestRandomPrioritizationStatementBased()
 
-    # Experiment 4 - Build Total Test Prioritization Suite
-    totalTests = tester.TotalCoveragePrioritizationStatementBased()
+    # # Experiment 4 - Build Total Test Prioritization Suite
+    # totalTests = tester.TotalCoveragePrioritizationStatementBased()
 
 
-    # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
+    # # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     # tester.TestTotalTestPrioritizationStatementBased() 
 
-    addTests = tester.AdditionalCoveragePrioritizationStatementBased()
+    # addTests = tester.AdditionalCoveragePrioritizationStatementBased()
 
 
-    # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
+    # # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     # tester.TestAdditionalTestPrioritizationStatementBased() 
 
-    # Experiment 6 - Evaluate the fault detection capability of the test suite
-    # Options as follows:
-        # "base" - the base test suite
-        # "RandomTestPrioritizationStatementBased" - the statement-based random test suite
-        # "TotalCoveragePrioritizationStatementBased" - the statement-based total test suite
-        # "AdditionalCoveragePrioritizationStatementBased" - the statement-based additional test suite
+    # # Experiment 6 - Evaluate the fault detection capability of the test suite
+    # # Options as follows:
+    # #     "base" - the base test suite
+    # #     "RandomTestPrioritizationStatementBased" - the statement-based random test suite
+    # #     "TotalCoveragePrioritizationStatementBased" - the statement-based total test suite
+    # #     "AdditionalCoveragePrioritizationStatementBased" - the statement-based additional test suite
 
-    testSuiteName = "TotalCoveragePrioritizationStatementBased"
-    faultMp = tester.evaluateFaultDetectionCapability(f"{testSuiteName}")
+    # testSuiteName = "RandomTestPrioritizationStatementBased"
+    # faultMp = tester.evaluateFaultDetectionCapability(f"{testSuiteName}")
 
-    del faultMp["testSuite"]
+    # del faultMp["testSuite"]
     
-    count = 0
-    for mutant in faultMp:
+    # count = 0
+    # for mutant in faultMp:
          
-        if len(faultMp[mutant])>0:
-            count+=1
+    #     if len(faultMp[mutant])>0:
+    #         count+=1
     
-    mutationScore = count/len(faultMp)
+    # mutationScore = count/len(faultMp)
          
-    print(f"Mutation Score is {mutationScore} for {testSuiteName}: it kills {count} out of {len(faultMp)} mutants.")
+    # print(f"Mutation Score is {mutationScore} for {testSuiteName}: it kills {count} out of {len(faultMp)} mutants.")
    
