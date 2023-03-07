@@ -280,7 +280,7 @@ class TCASTESTER:
 
     # Function to build the test suite base on the random test prioritization technique - based on the statement coverage
     def RandomTestPrioritizationStatementBased(self,coverage):
-        testcases =  coverage
+        testcases =  coverage.copy()
         visited_lines = set()  # To keep track of the lines that have been covered
 
         # Shuffle the testcases randomly
@@ -310,7 +310,7 @@ class TCASTESTER:
     
      # Function to build the test suite base on the random test prioritization technique - based on branch coverage
     def RandomTestPrioritizationBranchBased(self,coverage):
-        testcases =  coverage
+        testcases =  coverage.copy()
         visited_lines = set()  # To keep track of the lines that have been covered
 
         # Shuffle the testcases randomly
@@ -893,6 +893,17 @@ class TCASTESTER:
         if name=="base" and os.path.exists("baseFaults.json"):
             with open("baseFaults.json") as f:
                 faultsDetected = json.load(f)
+                del faultsDetected["testSuite"]
+        
+                count = 0
+                for mutant in faultsDetected:
+                    
+                    if len(faultsDetected[mutant])>0:
+                        count+=1
+                
+                mutationScore = count/len(faultsDetected)
+                    
+                print(f"Mutation Score is {mutationScore} for {name}: it kills {count} out of {len(faultsDetected)} mutants.")
             return faultsDetected
 
         if name == "RandomTestPrioritizationStatementBased":
@@ -1013,7 +1024,7 @@ if __name__ == "__main__":
     print("\t3) For each test suite we calculate the fault detection capability of the test suite")
     print("\t4) We alaso calculate the fault detection capability of the universe of testcases")
 
-    print("-------------------------------------------------START OF EXPERIMENT------------------------------------------------\n")
+    print("\n-------------------------------------------------START OF EXPERIMENT------------------------------------------------\n")
     print("------------------------------------------COLLECTING COVERAGE FOR UNIVERSE------------------------------------------\n")
 
 
@@ -1030,58 +1041,58 @@ if __name__ == "__main__":
     # Test 2 - Dump the coverage information to a file
     tester.dumpCoverageData(tester.getCoverageData(), "coverageData.json")
 
-    print("---------------------------1. COLLECTED COVERAGE FOR UNIVERSE AND DUMPED TO coverageData.json--------------------------\n")
+    print("\n---------------------------1. COLLECTED COVERAGE FOR UNIVERSE AND DUMPED TO coverageData.json--------------------------\n")
     # Experiment 2 - Collect coverage information for the statement-based random test suite
     coverageData = tester.getCoverageData()
-    print("-----------------------------2. BUILDING RANDOM TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------2. BUILDING RANDOM TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     randomTests = tester.RandomTestPrioritizationStatementBased(coverageData)
  
 
     #  Experiment 3 - Test Quality of suite for statement coverage of random test suite
-    print("-----------------------------3. TESTING RANDOM TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------3. TESTING RANDOM TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     tester.TestRandomPrioritizationStatementBased()
     coverageData = tester.getCoverageData()
 
-    print("-----------------------------4. BUILDING TOTAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------4. BUILDING TOTAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     randomTests = tester.RandomTestPrioritizationBranchBased(coverageData)
  
-    print("-----------------------------5. TESTING RANDOM TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
+    print("\n-----------------------------5. TESTING RANDOM TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
     # # Experiment 3 - Test Quality of suite for statement coverage of random test suite
     tester.TestRandomPrioritizationBranchBased()
 
 
-    print("-----------------------------6. BUILDING TOTAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------6. BUILDING TOTAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     # Experiment 4 - Build Total Test Prioritization Suite
     totalTests = tester.TotalCoveragePrioritizationStatementBased()
 
 
     # Experiment 5 - Test Quality of suite for statement coverage of total test suite
-    print("-----------------------------7. TESTING TOTAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------7. TESTING TOTAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     tester.TestTotalTestPrioritizationStatementBased() 
 
 
-    print("-----------------------------8. BUILDING TOTAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
+    print("\n-----------------------------8. BUILDING TOTAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
     totalTests = tester.TotalCoveragePrioritizationBranchBased()
 
 
     # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
-    print("-----------------------------9. TESTING TOTAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
+    print("\n-----------------------------9. TESTING TOTAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
     tester.TestTotalTestPrioritizationBranchBased() 
 
 
-    print("-----------------------------10. BUILDING ADDITIONAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------10. BUILDING ADDITIONAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     addTests = tester.AdditionalCoveragePrioritizationStatementBased()
 
 
     # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
-    print("-----------------------------11. TESTING ADDITIONAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
+    print("\n-----------------------------11. TESTING ADDITIONAL TEST SUITE FOR STATEMENT COVERAGE--------------------------------------\n")
     tester.TestAdditionalTestPrioritizationStatementBased() 
 
 
-    print("-----------------------------12. BUILDING ADDITIONAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
+    print("\n-----------------------------12. BUILDING ADDITIONAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
     addTests = tester.AdditionalCoveragePrioritizationBranchBased()
 
-    print("-----------------------------13. TESTING ADDITIONAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
+    print("\n-----------------------------13. TESTING ADDITIONAL TEST SUITE FOR BRANCH COVERAGE--------------------------------------\n")
     # # Experiment 5 - Test Quality of suite for statement coverage of total test suite
     tester.TestAdditionalTestPrioritizationBranchBased() 
 
@@ -1096,9 +1107,9 @@ if __name__ == "__main__":
     # #     "AdditionalCoveragePrioritizationBranchBased" - the branch-based additional test suite
 
     testSuiteNames = ["base", "RandomTestPrioritizationStatementBased", "TotalCoveragePrioritizationStatementBased", "AdditionalCoveragePrioritizationStatementBased", "RandomTestPrioritizationBranchBased", "TotalCoveragePrioritizationBranchBased", "AdditionalCoveragePrioritizationBranchBased"]
-    print("-----------------------------14. EVALUATING FAULT DETECTION CAPABILITY OF ALL TEST SUITES--------------------------------------\n")
+    print("\n-----------------------------14. EVALUATING FAULT DETECTION CAPABILITY OF ALL TEST SUITES--------------------------------------\n")
     for name in testSuiteNames:
-        print("\t-------------------EVALUATING FAULT DETECTION CAPABILITY OF " + name.upper() + "-------------------\n")
+        print("\t\n-------------------EVALUATING FAULT DETECTION CAPABILITY OF " + name.upper() + "-------------------\n")
         faultMp = tester.evaluateFaultDetectionCapability(name)
 
-        
+    print("\n----------------END OF EXPERIMENT - Check scripts/tcas for all the dumped coverage info and faults detected per testsuite---------------\n")
