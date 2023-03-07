@@ -848,7 +848,6 @@ class TCASTESTER:
             item_path = os.path.join(self.path, item)
             if os.path.isdir(item_path):
                 folders.append(item)
-        print(len(folders))
         folders = sorted(folders, key = lambda x: int(x[1:]))
         return folders
 
@@ -1090,5 +1089,5 @@ if __name__ == "__main__":
         print("\t\n-------------------EVALUATING FAULT DETECTION CAPABILITY OF " + name.upper() + "-------------------\n")
        
         faultMp = tester.evaluateFaultDetectionCapability(name)
-
+    tester.cleanUpBetweenRuns()
     print("\n----------------END OF EXPERIMENT - Check scripts/tcas for all the dumped coverage info and faults detected per testsuite---------------\n")
