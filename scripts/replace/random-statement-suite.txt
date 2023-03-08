@@ -1,0 +1,20 @@
+'-@*[^a--]--' '&' < ../../benchmarks/replace/temp-test/855.inp.367.3
+'%?[@@][^0-9][a-c]?-[^0-9]- [^9-B]$' 'NEW' < ../../benchmarks/replace/temp-test/1129.inp.485.10
+''\''A@@D' '0' < ../../benchmarks/replace/input/ruin.890
+'[A-G]' 'N' < ../../benchmarks/replace/input/ruin.647
+'%123[1-9abcdefgh]*' '&[lkjasdlkjdf]&'  < ../../benchmarks/replace/moni/rr2.t
+'@@[0-9]*o[0-9]' '$' < ../../benchmarks/replace/input/ruin.566
+'?' 'pvDPT~*,@txdKMQwIQtir+O|sN{.P'\''\=TrH15QQ8^]u"F,OcZ~GOn|XDA5jxdO\!Y83' < ../../benchmarks/replace/input/ruin.301
+'-[a-c' 'a@nb@tc' < ../../benchmarks/replace/temp-test/1226.inp.526.2
+'[^>-AzZ-a]^_`a-z-}z-}]' 'Z}~ZyBzkd3:;$=h' < ../../benchmarks/replace/input/ruin.216
+'@@@n' ';&.St7,*,FY'\''e2 #PQt_JAdEVyBorNLKtG4,nKOUCw{Tr/J2d]Omr-PWjk+' < ../../benchmarks/replace/input/ruin.98
+'c-[0-9][^a-c@**-' '@t' < ../../benchmarks/replace/temp-test/168.inp.75.2
+'[^9-B][a-c]' '' < ../../benchmarks/replace/temp-test/1674.inp.714.1
+'%E$' 'I' < ../../benchmarks/replace/input/ruin.1790
+'@1@n11@nl[^1-6]betweend@t@n%%88*erwhatjust@t@t@tgvariety%$inthestr&& OK here[@@]' < ../../benchmarks/replace/moni/rr2.t
+'-*$'  < ../../benchmarks/replace/temp-test/200.inp.90.1
+'[EZ-a]^_`a]?[^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c][^a-c]*?--*?* *[a--b][^a-c]' 'B6' < ../../benchmarks/replace/input/ruin.1344
+'%@[*[9-B]@' '&' < ../../benchmarks/replace/temp-test/492.inp.215.5
+'@n'\''[^z-}]' '=' < ../../benchmarks/replace/input/ruin.277
+'%@@$' 'KV5^u_vH*;0X>-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^-[^a-c][0-9]@[[0-9]*[^0-9]*-[^a-c]@n*^[^c4^sOw%oe5'\''AZr@KBq' < ../../benchmarks/replace/input/ruin.1341
+'$%**' 'a' < ../../benchmarks/replace/moni/f7.inp

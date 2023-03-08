@@ -1,0 +1,10 @@
+'%A[0-9]?@**[a-c][^0-9]$' '@%&a' < ../../benchmarks/replace/temp-test/672.inp.292.11
+'@1@n11@nl[^1-6]betweend@t@n%%88*erwhatjust@t@t@tgvariety%$inthestr&& OK here[@@]' < ../../benchmarks/replace/moni/rr2.t
+'[^0-9]?-?[^a--b]*$' < ../../benchmarks/replace/temp-test/206.inp.92.1
+'[0-9]*$' '@' < ../../benchmarks/replace/input/ruin.1254
+'[c-aA-GZ-a]^_`a]@@?' 'I8-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_-aA-GZ-a]^_DDe(Gk8G' < ../../benchmarks/replace/input/ruin.1050
+'?--@**[^0-9]-*[-z]@n*$' '&' < ../../benchmarks/replace/temp-test/1026.inp.441.6
+'-[0-9][^-z]@**[^9-B]?[^a--]@[ *[9-B]**' 'a' < ../../benchmarks/replace/moni/f7.inp
+'*@t[@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9][@t]*[@t@][9-B]-*[0-9]' 'F' < ../../benchmarks/replace/input/ruin.320
+'[a--]@@*^-]?-[9-B][^@@]-' 'a@nb@tc' < ../../benchmarks/replace/temp-test/719.inp.310.2
+'%*@@p&y=3[ZYIp&y=3[ZYIp&y=3[ZYIp&y=3[ZYIp&y=3[ZYIp&y=3[ZYIp&y=3[ZYIp&y=3[ZYIgTBk$' '^^+p&y=3[ZYIgTBk:JTg x?51<dbL' < ../../benchmarks/replace/input/ruin.1331
