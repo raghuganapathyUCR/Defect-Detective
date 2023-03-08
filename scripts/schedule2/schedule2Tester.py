@@ -921,13 +921,16 @@ class SCHEDULE2TESTER:
                 agrsTest = testcase.split()
 
                 # Run the testcase and save the result to compare with the true result
-                result = subprocess.run(f"./schedule2 {testcase}", shell=True, stdout=subprocess.PIPE)
+                result = subprocess.run(f"./schedule2 {testcase}", shell=True, stderr=subprocess.PIPE, stdout=subprocess.PIPE)
+                
                 if result.stdout.decode('utf-8').strip() != test["TrueResult"]:
                     faultsForCurrentMutantGivenATestCase = {}
                     faultsForCurrentMutantGivenATestCase["testcaseID"] = test["testcaseID"]
                     faultsForCurrentMutantGivenATestCase["testcase"] = test["testcase"]
                     faultsForCurrentMutantGivenATestCase["TrueResult"] = test["TrueResult"]
                     faultsForCurrentMutantGivenATestCase["MutantResult"] = result.stdout.decode('utf-8').strip()
+                    if result.stderr:
+                        faultsForCurrentMutantGivenATestCase["error"] = result.stderr.decode('utf-8').strip()
                     testFaults.append(faultsForCurrentMutantGivenATestCase)
                 
             # clear binary before running the next mutant   
