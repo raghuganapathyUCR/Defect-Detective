@@ -1,0 +1,6 @@
+5 3 1  < ../../benchmarks/schedule2/input/nnt10
+2  7  4   < ../../benchmarks/schedule2/input/lu146
+0 0 0  < ../../benchmarks/schedule2/input/tc.124
+4 9 10  < ../../benchmarks/schedule2/input/inp.33
+5 0 4  < ../../benchmarks/schedule2/input/dat591
+1 8 7  < ../../benchmarks/schedule2/input/adt.116

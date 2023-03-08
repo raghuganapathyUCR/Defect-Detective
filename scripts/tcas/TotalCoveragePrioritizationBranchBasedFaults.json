@@ -1,0 +1,201 @@
+{
+    "testSuite": "TotalCoveragePrioritizationBranchBased",
+    "v1": [],
+    "v2": [
+        {
+            "testcaseID": 58,
+            "testcase": "634 1 1 633 200 535 2 665 795 0 1 1",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v3": [],
+    "v4": [],
+    "v5": [],
+    "v6": [],
+    "v7": [],
+    "v8": [],
+    "v9": [],
+    "v10": [],
+    "v11": [],
+    "v12": [],
+    "v13": [],
+    "v14": [
+        {
+            "testcaseID": 58,
+            "testcase": "634 1 1 633 200 535 2 665 795 0 1 1",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v15": [],
+    "v16": [],
+    "v17": [],
+    "v18": [
+        {
+            "testcaseID": 58,
+            "testcase": "634 1 1 633 200 535 2 665 795 0 1 1",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v19": [],
+    "v20": [],
+    "v21": [],
+    "v22": [
+        {
+            "testcaseID": 22,
+            "testcase": "1118 1 1 712 261 735 1 423 450 0 1 1",
+            "TrueResult": "1",
+            "MutantResult": "0"
+        }
+    ],
+    "v23": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 15,
+            "testcase": "698 1 0 3071 59 307 0 849 904 0 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v24": [],
+    "v25": [],
+    "v26": [],
+    "v27": [],
+    "v28": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 15,
+            "testcase": "698 1 0 3071 59 307 0 849 904 0 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 22,
+            "testcase": "1118 1 1 712 261 735 1 423 450 0 1 1",
+            "TrueResult": "1",
+            "MutantResult": "0"
+        }
+    ],
+    "v29": [
+        {
+            "testcaseID": 22,
+            "testcase": "1118 1 1 712 261 735 1 423 450 0 1 1",
+            "TrueResult": "1",
+            "MutantResult": "0"
+        }
+    ],
+    "v30": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 15,
+            "testcase": "698 1 0 3071 59 307 0 849 904 0 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v31": [],
+    "v32": [],
+    "v33": [
+        {
+            "testcaseID": 22,
+            "testcase": "1118 1 1 712 261 735 1 423 450 0 1 1",
+            "TrueResult": "1",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 66,
+            "testcase": "727 1 1 1935  339  968 0  399  740 0 1 1",
+            "TrueResult": "0",
+            "MutantResult": "2"
+        }
+    ],
+    "v34": [],
+    "v35": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 15,
+            "testcase": "698 1 0 3071 59 307 0 849 904 0 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 22,
+            "testcase": "1118 1 1 712 261 735 1 423 450 0 1 1",
+            "TrueResult": "1",
+            "MutantResult": "0"
+        }
+    ],
+    "v36": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "1"
+        },
+        {
+            "testcaseID": 58,
+            "testcase": "634 1 1 633 200 535 2 665 795 0 1 1",
+            "TrueResult": "2",
+            "MutantResult": "1"
+        },
+        {
+            "testcaseID": 15,
+            "testcase": "698 1 0 3071 59 307 0 849 904 0 2 0",
+            "TrueResult": "2",
+            "MutantResult": "1"
+        }
+    ],
+    "v37": [
+        {
+            "testcaseID": 22,
+            "testcase": "1118 1 1 712 261 735 1 423 450 0 1 1",
+            "TrueResult": "1",
+            "MutantResult": "0"
+        }
+    ],
+    "v38": [],
+    "v39": [],
+    "v40": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 58,
+            "testcase": "634 1 1 633 200 535 2 665 795 0 1 1",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        },
+        {
+            "testcaseID": 15,
+            "testcase": "698 1 0 3071 59 307 0 849 904 0 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v41": []
+}

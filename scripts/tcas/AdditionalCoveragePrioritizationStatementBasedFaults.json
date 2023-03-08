@@ -1,0 +1,107 @@
+{
+    "testSuite": "AdditionalCoveragePrioritizationStatementBased",
+    "v1": [
+        {
+            "testcaseID": 1,
+            "testcase": "1258 1 0 897  174 7253 1  629  500 0 0 1",
+            "TrueResult": "0",
+            "MutantResult": "1"
+        }
+    ],
+    "v2": [],
+    "v3": [],
+    "v4": [],
+    "v5": [],
+    "v6": [],
+    "v7": [
+        {
+            "testcaseID": 1,
+            "testcase": "1258 1 0 897  174 7253 1  629  500 0 0 1",
+            "TrueResult": "0",
+            "MutantResult": "1"
+        }
+    ],
+    "v8": [],
+    "v9": [],
+    "v10": [],
+    "v11": [],
+    "v12": [],
+    "v13": [],
+    "v14": [],
+    "v15": [],
+    "v16": [],
+    "v17": [
+        {
+            "testcaseID": 1,
+            "testcase": "1258 1 0 897  174 7253 1  629  500 0 0 1",
+            "TrueResult": "0",
+            "MutantResult": "1"
+        }
+    ],
+    "v18": [],
+    "v19": [],
+    "v20": [],
+    "v21": [],
+    "v22": [],
+    "v23": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v24": [],
+    "v25": [],
+    "v26": [],
+    "v27": [],
+    "v28": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v29": [],
+    "v30": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v31": [],
+    "v32": [],
+    "v33": [],
+    "v34": [],
+    "v35": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v36": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "1"
+        }
+    ],
+    "v37": [],
+    "v38": [],
+    "v39": [],
+    "v40": [
+        {
+            "testcaseID": 8,
+            "testcase": "798 1 1 2071 49 307 0 849 904 1 2 0",
+            "TrueResult": "2",
+            "MutantResult": "0"
+        }
+    ],
+    "v41": []
+}

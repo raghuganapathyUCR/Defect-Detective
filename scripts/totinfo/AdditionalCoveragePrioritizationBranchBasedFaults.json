@@ -1,0 +1,170 @@
+{
+    "testSuite": "AdditionalCoveragePrioritizationBranchBased",
+    "v1": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\ntable too small\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000"
+        },
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\ntable all zeros\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        },
+        {
+            "testcaseID": 302,
+            "testcase": "< ../../benchmarks/totinfo/universe/test58",
+            "TrueResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n* EOF in table *",
+            "MutantResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\ntable too small\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n* EOF in table *"
+        },
+        {
+            "testcaseID": 285,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new59",
+            "TrueResult": "table too small\n#dlghldlA\ntable all zeros\nnegative freq\ntable all zeros\n2info =  0.00\tdf =  2\tq =  1.0000\ntable all zeros\n2info =  0.00\tdf =  4\tq =  1.0000\n2info =  0.00\tdf =  4\tq =  1.0000\ntable all zeros\n2info = 330477.50\tdf =  6\tq =  0.0000\n* invalid row/column line *",
+            "MutantResult": "table too small\n#dlghldlA\ntable all zeros\ntable too small\ntable all zeros\n2info =  0.00\tdf =  2\tq =  1.0000\ntable all zeros\n2info =  0.00\tdf =  4\tq =  1.0000\n2info =  0.00\tdf =  4\tq =  1.0000\ntable all zeros\n2info = 330477.50\tdf =  6\tq =  0.0000\n* invalid row/column line *"
+        }
+    ],
+    "v2": [],
+    "v3": [],
+    "v4": [],
+    "v5": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 45.46\tdf = 62\tq =  0.9431"
+        }
+    ],
+    "v6": [],
+    "v7": [
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \ntable all zeros\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        }
+    ],
+    "v8": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.6667\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq = -32575497294727987200.0000\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000"
+        },
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  0.6667\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq = -3.6561\n2info =  0.68\tdf =  1\tq = -0.1647\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        },
+        {
+            "testcaseID": 302,
+            "testcase": "< ../../benchmarks/totinfo/universe/test58",
+            "TrueResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n* EOF in table *",
+            "MutantResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.6667\n* EOF in table *"
+        }
+    ],
+    "v9": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 44\tq =  0.0000"
+        }
+    ],
+    "v10": [
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 16163710.16\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        }
+    ],
+    "v11": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  1.0000\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  1.0000\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000"
+        },
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  1.0000\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  1.0000\n2info =  0.68\tdf =  1\tq =  1.0000\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        },
+        {
+            "testcaseID": 302,
+            "testcase": "< ../../benchmarks/totinfo/universe/test58",
+            "TrueResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n* EOF in table *",
+            "MutantResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  1.0000\n* EOF in table *"
+        }
+    ],
+    "v12": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4111\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000"
+        }
+    ],
+    "v13": [
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\ntable all zeros\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \ntable all zeros\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        }
+    ],
+    "v14": [],
+    "v15": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  1.0000\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  1.0000\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000"
+        },
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  1.0000\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  1.0000\n2info =  0.68\tdf =  1\tq =  1.0000\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *"
+        },
+        {
+            "testcaseID": 302,
+            "testcase": "< ../../benchmarks/totinfo/universe/test58",
+            "TrueResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n* EOF in table *",
+            "MutantResult": "#  nq @$!i   QTg#l     \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n#   \n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  1.0000\n* EOF in table *"
+        }
+    ],
+    "v16": [
+        {
+            "testcaseID": 293,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new51",
+            "TrueResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\n2info =  0.00\tdf =  1\tq =  1.0000\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \n2info =  0.00\tdf = 15\tq =  1.0000\n2info =  0.00\tdf =  2\tq =  1.0000\n* table too large *",
+            "MutantResult": "2info =  0.14\tdf =  1\tq =  0.7098\ntable too small\n2info = 12350446.30\tdf =  1\tq =  0.0000\nnegative freq\n2info = 27.73\tdf =  1\tq =  0.0000\ntable all zeros\n2info =  1.74\tdf =  1\tq =  0.1866\n2info =  0.68\tdf =  1\tq =  0.4097\n#   \ntable all zeros\ntable all zeros\n* table too large *"
+        },
+        {
+            "testcaseID": 285,
+            "testcase": "< ../../benchmarks/totinfo/universe/12new59",
+            "TrueResult": "table too small\n#dlghldlA\ntable all zeros\nnegative freq\ntable all zeros\n2info =  0.00\tdf =  2\tq =  1.0000\ntable all zeros\n2info =  0.00\tdf =  4\tq =  1.0000\n2info =  0.00\tdf =  4\tq =  1.0000\ntable all zeros\n2info = 330477.50\tdf =  6\tq =  0.0000\n* invalid row/column line *",
+            "MutantResult": "table too small\n#dlghldlA\ntable all zeros\nnegative freq\ntable all zeros\ntable all zeros\ntable all zeros\ntable all zeros\ntable all zeros\ntable all zeros\n2info = 330477.50\tdf =  6\tq =  0.0000\n* invalid row/column line *"
+        }
+    ],
+    "v17": [],
+    "v18": [],
+    "v19": [],
+    "v20": [
+        {
+            "testcaseID": 202,
+            "testcase": "< ../../benchmarks/totinfo/universe/test99",
+            "TrueResult": "#   \n# EYhqY!8ts% \ntable too small\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000",
+            "MutantResult": "#   \n# EYhqY!8ts% \n2info =  0.00\tdf =  0\tq =  1.0000\n#dlghldlA\ntable all zeros\nnegative freq\n2info = 46766.38\tdf = 17\tq =  0.0000\n2info =  0.14\tdf =  1\tq =  0.7098\n#  nq @$!i   QTg#l     \n2info = 45.46\tdf = 44\tq =  0.4110\n\ntotal 2info = 46811.98\tdf = 62\tq =  0.0000"
+        }
+    ],
+    "v21": [],
+    "v22": [],
+    "v23": []
+}
