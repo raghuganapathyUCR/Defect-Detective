@@ -1,0 +1,5 @@
+< ../../benchmarks/totinfo/universe/test99
+< ../../benchmarks/totinfo/universe/12new51
+< ../../benchmarks/totinfo/universe/test17
+< ../../benchmarks/totinfo/universe/12new46
+< ../../benchmarks/totinfo/universe/ntest2

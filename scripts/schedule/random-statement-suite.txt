@@ -1,0 +1,6 @@
+3 0 1  < ../../benchmarks/schedule/input/dat476
+8 0 7  < ../../benchmarks/schedule/input/add.316
+3 0 0  < ../../benchmarks/schedule/input/tc.81
+7 3 8  < ../../benchmarks/schedule/input/inp.12
+4 9 4  < ../../benchmarks/schedule/input/ft.15
+9  2  < ../../benchmarks/schedule/input/ft.21

@@ -1,0 +1,6 @@
+< ../../benchmarks/printtokens/inputs/uslin.301
+< ../../benchmarks/printtokens/inputs/uslin.1355
+< ../../benchmarks/printtokens/inputs/uslin.650
+../../benchmarks/printtokens/inputs/uslin.1391
+../../benchmarks/printtokens/inputs/garbage/nothing
+one ../../benchmarks/printtokens/doesntliketwo

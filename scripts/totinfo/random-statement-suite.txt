@@ -1,0 +1,9 @@
+< ../../benchmarks/totinfo/universe/bnewt8
+< ../../benchmarks/totinfo/universe/jkADG.mat
+< ../../benchmarks/totinfo/universe/jkABk.mat
+< ../../benchmarks/totinfo/universe/new3
+< ../../benchmarks/totinfo/ universe/test349.inc
+< ../../benchmarks/totinfo/universe/12new37
+< ../../benchmarks/totinfo/universe/tst31
+< ../../benchmarks/totinfo/universe/test54
+< ../../benchmarks/totinfo/universe/tst21.mat

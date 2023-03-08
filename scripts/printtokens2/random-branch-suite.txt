@@ -1,0 +1,19 @@
+< ../../benchmarks/printtokens2/inputs/tc178
+../../benchmarks/printtokens2/inputs/uslin.1824
+< ../../benchmarks/printtokens2/inputs/tc205
+../../benchmarks/printtokens2/inputs/uslin.1536
+< ../../benchmarks/printtokens2/inputs/tc292
+< ../../benchmarks/printtokens2/inputs/newtst388.tst
+< ../../benchmarks/printtokens2/inputs/tc83
+< ../../benchmarks/printtokens2/inputs/newtst367.tst
+< ../../benchmarks/printtokens2/inputs/uslin.614
+< ../../benchmarks/printtokens2/inputs/tst54
+../../benchmarks/printtokens2/inputs/jk31
+< ../../benchmarks/printtokens2/inputs/tc286
+< ../../benchmarks/printtokens2/inputs/uslin.1116
+../../benchmarks/printtokens2/inputs/uslin.1305
+../../benchmarks/printtokens2/inputs/uslin.1749
+< ../../benchmarks/printtokens2/inputs/tc106
+< ../../benchmarks/printtokens2/inputs/test166
+one ../../benchmarks/printtokens2/doesntliketwo
+../../benchmarks/printtokens2/inputs/garbage/nothing

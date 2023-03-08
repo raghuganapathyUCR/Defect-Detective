@@ -1,0 +1,1 @@
+1 2 3  < ../../benchmarks/schedule2/input/inp.hf.12

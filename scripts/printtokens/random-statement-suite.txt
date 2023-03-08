@@ -1,0 +1,14 @@
+< ../../benchmarks/printtokens/inputs/uslin.98
+../../benchmarks/printtokens/inputs/uslin.1386
+< ../../benchmarks/printtokens/inputs/tc291
+< ../../benchmarks/printtokens/inputs/tc163
+../../benchmarks/printtokens/inputs/jk21
+< ../../benchmarks/printtokens/inputs/tst265
+< ../../benchmarks/printtokens/inputs/newtst588.tst
+../../benchmarks/printtokens/inputs/uslin.5.noeof
+../../benchmarks/printtokens/inputs/uslin.1472
+../../benchmarks/printtokens/inputs/uslin.724
+< ../../benchmarks/printtokens/inputs/ts729
+one ../../benchmarks/printtokens/doesntliketwo
+< ../../benchmarks/printtokens/inputs/tst31
+../../benchmarks/printtokens/inputs/garbage/nothing

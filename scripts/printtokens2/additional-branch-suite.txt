@@ -1,0 +1,4 @@
+../../benchmarks/printtokens2/inputs/uslin.416.noeof
+< ../../benchmarks/printtokens2/inputs/ts696
+../../benchmarks/printtokens2/inputs/garbage/nothing
+one ../../benchmarks/printtokens2/doesntliketwo

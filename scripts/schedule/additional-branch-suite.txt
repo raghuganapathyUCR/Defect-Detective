@@ -1,0 +1,7 @@
+6 7 3  < ../../benchmarks/schedule/input/ct.36
+2 7 9  < ../../benchmarks/schedule/input/ft.6
+8 3 9  < ../../benchmarks/schedule/input/inp.hf.16
+4 8 8  < ../../benchmarks/schedule/input/inp.hf.3
+7 10 5  < ../../benchmarks/schedule/input/inp.hf.6
+9 8 5  < ../../benchmarks/schedule/input/inp.hf.14
+2  5  < ../../benchmarks/schedule/input/ft.20

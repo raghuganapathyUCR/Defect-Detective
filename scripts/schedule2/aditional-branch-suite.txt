@@ -1,0 +1,5 @@
+0 1 5  < ../../benchmarks/schedule2/input/inp.hf.14
+2 1 2  < ../../benchmarks/schedule2/input/et.7
+1 2 1  < ../../benchmarks/schedule2/input/dt.12
+0 1 -2  < ../../benchmarks/schedule2/input/zt.13
+2  5  < ../../benchmarks/schedule2/input/ft.20

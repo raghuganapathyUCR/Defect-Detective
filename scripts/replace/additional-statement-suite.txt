@@ -1,0 +1,8 @@
+'%A[0-9]?@**[a-c][^0-9]$' '@%&a' < ../../benchmarks/replace/temp-test/672.inp.292.11
+'@1@n11@nl[^1-6]betweend@t@n%%88*erwhatjust@t@t@tgvariety%$inthestr&& OK here[@@]' < ../../benchmarks/replace/moni/rr2.t
+'@[[^9-B][_-z]c^a-]^*-?[^0-9]-[^9-B]' '[[^9-B][_-z]c^a-]^*-?[^0-9]-[^9-B][[^9-B][_-z]c^a-]^*-?[^0-9]-[^9-B][[^9-B][_-z]c^a-]^*-?[^0-9]-[^9-B][[^9-B][_-z]c^a-]^*-?[^0-9]-[^9-B]a&' < ../../benchmarks/replace/temp-test/2266.inp.961.1
+'?@[*?-]$' '@%&a@' < ../../benchmarks/replace/temp-test/353.inp.154.9
+'?[^--z]c[^9-B][^9-B]c*?[9-B]c-'  < ../../benchmarks/replace/temp-test/530.inp.230.1
+'%@**^0-9]@**^[^@@]-[0-9][@t][^0-9]@**^*8*8*[9-B]-[0-9][^0-9][@t][^0-9]@**^[^@@][9-B]'  < ../../benchmarks/replace/temp-test/1397.inp.600.1
+'[a--]@@*^-]?-[9-B][^@@]-' 'a@nb@tc' < ../../benchmarks/replace/temp-test/719.inp.310.2
+'-[0-9][^-z]@**[^9-B]?[^a--]@[ *[9-B]**' 'a' < ../../benchmarks/replace/moni/f7.inp
