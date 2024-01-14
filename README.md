@@ -1,9 +1,9 @@
-## CS206 Project - Team Defect Detectives
+## Defect Detective
 ##
-| Author Name | Email |SID|
+| Author Name | Email 
 |--|--|--|
-| Raghu Ganapathy |  rgana001@ucr.edu|862394298|
-| Daiyaan Ahmed Shaik |  dsha005@ucr.edu|862393960|
+| Raghu Ganapathy |  rgana001@ucr.edu
+
 
 ### Project File Structure
 ```
@@ -80,7 +80,7 @@ root
 |___README.md	 
 ```
 ### Notes on the project file structure - 
-1. Our test suites are generated and evaluated for each benchmark in it's associated "tester.py", which can be found inside the scripts directory.
+1. The test suites are generated and evaluated for each benchmark in it's associated "tester.py", which can be found inside the scripts directory.
 2. The test suites generated for each benchmark program are placed in the same directory as the associated "tester" file.
 Ex - "Statement Coverage based Total Test Prioritization Test Suite"  for tcas can be found in root/scripts/tcas as file "total-statement-suite.txt"
 
@@ -100,5 +100,5 @@ Ex - "Statement Coverage based Total Test Prioritization Test Suite"  for tcas c
 	```
 ### General Notes
  - No additional packages are required to run, as the entire project is implemented using only the packages available in standard python library.
- - We have't committed any static files (apart from the required test suites), but the testers create static files to speed subsequent runs. _Please keep these files if the tester is going to be run more than once, as it will help run the tester files faster_. 
+ - I have't committed any static files (apart from the required test suites), but the testers create static files to speed subsequent runs. _Please keep these files if the tester is going to be run more than once, as it will help run the tester files faster_. 
  - All the faults found for each test suite get dumped to the same folder as their associated tester, in json format. This is done to help us in generating the report.
