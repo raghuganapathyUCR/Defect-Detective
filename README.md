@@ -1,8 +1,7 @@
 ## Defect Detective
 ##
-| Author Name | Email 
-|--|--|--|
-| Raghu Ganapathy |  rgana001@ucr.edu
+
+Raghu Ganapathy |  rgana001@ucr.edu
 
 
 ### Project File Structure
